@@ -54,27 +54,43 @@ assert 'All Organizations' in org_page_text
 # ======================================================================================================================
 
 # navigate to the targeted organization
-max_page = 15
-page_no = 0
+# max_page = 15
+# page_no = 0
 
-while page_no < max_page:
-    try:
-        targeted_org = quick_wait.until(
-            expected_conditions.presence_of_element_located((By.XPATH, "//h6[normalize-space()='Automated Test ORG']")))
-        print(f'Found the targeted organization: {targeted_org.text}')
-        break
-    except:
-        page_no += 1
-        print(f'Moving to page: {page_no}')
-        next_btn = quick_wait.until(
-            expected_conditions.element_to_be_clickable((By.CSS_SELECTOR, "a[aria-label='Next page']")))
-        driver.execute_script("arguments[0].scrollIntoView(true);", next_btn)
-        time.sleep(1)
-        next_btn.click()
-else:
-    raise Exception("❌ Target organization not found.")
+# while page_no < max_page:
+#     try:
+#         targeted_org = quick_wait.until(
+#             expected_conditions.presence_of_element_located((By.XPATH, "//h6[normalize-space()='Automated Test ORG']")))
+#         print(f'Found the targeted organization: {targeted_org.text}')
+#         break
+#     except:
+#         page_no += 1
+#         print(f'Moving to page: {page_no}')
+#         next_btn = quick_wait.until(
+#             expected_conditions.element_to_be_clickable((By.CSS_SELECTOR, "a[aria-label='Next page']")))
+#         driver.execute_script("arguments[0].scrollIntoView(true);", next_btn)
+#         time.sleep(1)
+#         next_btn.click()
+# else:
+#     raise Exception("❌ Target organization not found.")
 
-driver.find_element(By.XPATH, "(//div[@class='org-card-arrow'])[8]").click()
+# driver.find_element(By.XPATH, "(//div[@class='org-card-arrow'])[8]").click()
+
+# navigate to the targeted organization
+# search for the org
+driver.find_element(By.CLASS_NAME, "connect-studio-search-input-small").send_keys("Automated")
+
+# click the org
+try:
+    wait.until(expected_conditions.presence_of_element_located((By.XPATH, "//h6[normalize-space()='Automated Test ORG']")))
+    driver.find_element(By.CLASS_NAME, "org-card-arrow-icon").click()
+except:
+    print('Org not found')
+    
+org_name = driver.find_element(By.CLASS_NAME, "client-org-name").text
+print(f'Organization Name: {org_name}')
+
+
 current_org_name = driver.find_element(By.CLASS_NAME, "client-org-name").text
 
 # ======================================================================================================================
