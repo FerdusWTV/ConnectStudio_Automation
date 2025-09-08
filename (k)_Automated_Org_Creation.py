@@ -52,17 +52,34 @@ assert 'All Organizations' in org_text
 
 # ======================================================================================================================
 
-#Total Page count
-total_page = driver.find_element(By.CSS_SELECTOR, "aside[class='children'] li:nth-child(10)").text
-print(f"Total Organization Page: {total_page}")
+# #Total Page count
+# total_page = driver.find_element(By.CSS_SELECTOR, "aside[class='children'] li:nth-child(10)").text
+# print(f"Total Organization Page: {total_page}")
 
-# Targeted org page switch
-for i in range(13):
-    element = wait.until(expected_conditions.element_to_be_clickable((By.CSS_SELECTOR, "a[aria-label='Next page']")))
-    driver.execute_script("arguments[0].scrollIntoView(true);", element)
-    time.sleep(1)
-    element.click()
-    print(i)
+# # Targeted org page switch
+# for i in range(13):
+#     element = wait.until(expected_conditions.element_to_be_clickable((By.CSS_SELECTOR, "a[aria-label='Next page']")))
+#     driver.execute_script("arguments[0].scrollIntoView(true);", element)
+#     time.sleep(1)
+#     element.click()
+#     print(i)
+
+# navigate to the targeted organization
+# search for the org
+driver.find_element(By.CLASS_NAME, "connect-studio-search-input-small").send_keys("Automated")
+
+# click the org
+try:
+    wait.until(expected_conditions.presence_of_element_located((By.XPATH, "//h6[normalize-space()='Automated Test ORG']")))
+    driver.find_element(By.CLASS_NAME, "org-card-arrow-icon").click()
+except:
+    print('Org not found')
+    
+org_name = driver.find_element(By.CLASS_NAME, "client-org-name").text
+print(f'Organization Name: {org_name}')
+
+
+current_org_name = driver.find_element(By.CLASS_NAME, "client-org-name").text
 
 # ======================================================================================================================
 

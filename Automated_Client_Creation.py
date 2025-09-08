@@ -90,7 +90,6 @@ except:
 org_name = driver.find_element(By.CLASS_NAME, "client-org-name").text
 print(f'Organization Name: {org_name}')
 
-
 current_org_name = driver.find_element(By.CLASS_NAME, "client-org-name").text
 
 # ======================================================================================================================
