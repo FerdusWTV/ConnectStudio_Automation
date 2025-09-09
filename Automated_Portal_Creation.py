@@ -5,8 +5,9 @@ from dotenv import load_dotenv
 from selenium import webdriver
 from selenium.webdriver.chrome.service import Service
 from selenium.webdriver.common.by import By
-from selenium.webdriver.support import expected_conditions
+from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.support.wait import WebDriverWait
+from selenium.webdriver.common.action_chains import ActionChains
 
 service_obj = Service("C:/Users/Tulip/Downloads/chromedriver-win64/chromedriver.exe")
 driver = webdriver.Chrome(service = service_obj)
@@ -22,6 +23,7 @@ password = os.getenv("PASSWORD")
 
 wait = WebDriverWait(driver, 10)
 quick_wait = WebDriverWait(driver, 1)
+actions = ActionChains(driver)
 
 # ======================================================================================================================
 
@@ -33,7 +35,7 @@ driver.find_element(By.CLASS_NAME, 'login-button').click()
 time.sleep(5)
 
 #login validation wait
-wait.until(expected_conditions.presence_of_element_located((By.CLASS_NAME, 'swal2-container')))
+wait.until(EC.presence_of_element_located((By.CLASS_NAME, 'swal2-container')))
 
 # ======================================================================================================================
 
@@ -46,7 +48,7 @@ assert 'Welcome' in welcome
 
 #org page access validation
 driver.find_element(By.XPATH, "//li[3]").click()
-org_page = wait.until(expected_conditions.presence_of_element_located((By.CLASS_NAME, "page-header-title")))
+org_page = wait.until(EC.presence_of_element_located((By.CLASS_NAME, "page-header-title")))
 org_page_text = org_page.text
 print(f'Accessed Organization Page successfully: {org_page_text}')
 assert 'All Organizations' in org_page_text
@@ -59,7 +61,7 @@ driver.find_element(By.CLASS_NAME, "connect-studio-search-input-small").send_key
 
 # click the org
 try:
-    wait.until(expected_conditions.presence_of_element_located((By.XPATH, "//h6[normalize-space()='Automated Test ORG']")))
+    wait.until(EC.presence_of_element_located((By.XPATH, "//h6[normalize-space()='Automated Test ORG']")))
     driver.find_element(By.CLASS_NAME, "org-card-arrow-icon").click()
 except:
     print('Org not found')
@@ -89,14 +91,18 @@ driver.find_element(By.XPATH, "//div[contains(text(),'AUTO')]").click()
 
 # Template style (optional)
 driver.find_element(By.XPATH, "//div[@data-testid='template-style']").click()
-template = wait.until(expected_conditions.element_to_be_clickable((By.XPATH, "//div[@title='Material - popular user experience style comprised of 3D elements']")))
+template = wait.until(EC.element_to_be_clickable((By.XPATH, "//div[@title='Material - popular user experience style comprised of 3D elements']")))
 template.click()
 
 # header menu logo
-logo = driver.find_element(By.XPATH, "(//div)[111]")
+# logo = driver.find_element(By.XPATH, "(//input[@type='file'])[1]")
+logo = wait.until(EC.presence_of_element_located((By.XPATH, "(//input[@type='file'])[1]")))
 driver.execute_script("arguments[0].scrollIntoView(true);", logo)
-driver.execute_script("arguments[0].click();", logo)
-logo.send_keys("C:\Users\Tulip\OneDrive - TulipTech LTD\Desktop\logo007.png")
+driver.execute_script("arguments[0].style.display = 'block';", logo)
+logo.send_keys("C:/Users/Tulip/OneDrive - TulipTech LTD/Desktop/Test_Logos/logo007.png")
+#crop logo
+set_button = wait.until(EC.element_to_be_clickable((By.XPATH, "//button[normalize-space()='Set']")))
+set_button.click()
 
 # registration email image
 reg_email_image = driver.find_element(By.XPATH, "(//div)[123]")
@@ -114,10 +120,10 @@ reg_email_image.send_keys()
 # driver.execute_script("arguments[0].click();", color_hex)
 # driver.execute_script("arguments[0].value = arguments[1];", color_hex, new_value)
 
-# save button
-save_btn = driver.find_element(By.CLASS_NAME, "custom-save-btn")
-driver.execute_script("arguments[0].scrollIntoView(true);", save_btn)
-save_btn.click()
+# # save button
+# save_btn = driver.find_element(By.CLASS_NAME, "custom-save-btn")
+# driver.execute_script("arguments[0].scrollIntoView(true);", save_btn)
+# save_btn.click()
 
 
-time.sleep(3)
+time.sleep(5)
