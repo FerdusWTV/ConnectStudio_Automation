@@ -134,7 +134,7 @@ reg_logo_set_button.click()
 # ============================================================================================================
 
 wait.until(EC.visibility_of_element_located((By.XPATH, "//div[@class='home-page']")))
-time.sleep(10)
+# time.sleep(10)
 
 # ============================================================================================================
 
@@ -147,11 +147,57 @@ time.sleep(1)
 driver.execute_script("arguments[0].click();", save_btn) #click save btn
 
 ### branding save confirmation
-# time.sleep(10)
-# wait.until(EC.presence_of_element_located((By.ID, "swal2-html-container")))
+time.sleep(5)
+wait.until(EC.presence_of_element_located((By.ID, "swal2-html-container")))
 
-# home_title = driver.find_element(By.XPATH, "//p[@class='general-info-title']").text
-# print(f"home_title: {home_title}")
+home_title = driver.find_element(By.XPATH, "//p[@class='general-info-title']").text
+print(f"home_title: {home_title}")
+
+assert "General" in home_title
+
+
+
+
+
+##### Home Home Home Home Home #####
+
+# Title
+title = driver.find_element(By.XPATH, "//input[@id='eventName']")
+title.send_keys("This is a Automated Title! Please read this!!!")
+
+# Subtitle
+subtitle = driver.find_element(By.XPATH, "//input[@id='subTitle']")
+subtitle.send_keys("This is a automated subtitle!!!")
+
+# Portal Opening date
+opening_date = driver.find_element(By.XPATH, "//input[@name='date']")
+opening_date.click()
+today_btn = driver.find_element(By.XPATH, "//a[normalize-space()='Today']")
+today_btn.click()
+
+# Portal Closing date
+closing_date = driver.find_element(By.XPATH, "//input[@name='closingDate']")
+closing_date.click()
+#next_page_btn
+next_btn = driver.find_element(By.XPATH, "//div[@class='ant-picker-dropdown css-1vgwa6h ant-picker-dropdown-placement-bottomLeft']//div[@class='ant-picker-panel-container ant-picker-date-panel-container']//div[@class='ant-picker-panel-layout']//div//button[@aria-label='Next month (PageDown)']")
+next_btn.click()
+#closing date
+date_close = driver.find_element(By.XPATH, "//td[@title='2025-10-04']")
+date_close.click()
+
+# Event Introduction
+intro = driver.find_element(By.XPATH, "//div[@class='ql-editor ql-blank']//p")
+intro.send_keys("This is a Automated Event Introduction. Please read this intro!!! If you can see this than the script is working correctly!!!")
+
+# Homepage Button Label(optional)
+home_btn = driver.find_element(By.XPATH, "//input[@id='homepageButton']")
+home_btn.send_keys("Download Resources")
+
+# Redirects to
+redirect = driver.find_element(By.XPATH, "//input[@id='homepageButtonLink']")
+redirect.click()
+
+
 
 
 
