@@ -60,7 +60,7 @@ driver.find_element(By.XPATH, "//li[@class='show']").click()
 
 # select organization
 wait.until(EC.presence_of_element_located((By.ID, "rc_select_0"))).click()
-org_menu = driver.find_element(By.XPATH, "//div[@class='rc-virtual-list-holder']")
+org_menu = wait.until(EC.presence_of_element_located((By.XPATH, "//div[@class='rc-virtual-list-holder']")))
 driver.execute_script("arguments[0].scrollTop = arguments[0].scrollHeight", org_menu)
 driver.find_element(By.XPATH, "//div[@title='Automated Test ORG']").click()
 
@@ -182,7 +182,7 @@ closing_date.click()
 next_btn = driver.find_element(By.XPATH, "//div[@class='ant-picker-dropdown css-1vgwa6h ant-picker-dropdown-placement-bottomLeft']//div[@class='ant-picker-panel-container ant-picker-date-panel-container']//div[@class='ant-picker-panel-layout']//div//button[@aria-label='Next month (PageDown)']")
 next_btn.click()
 #closing date
-date_close = driver.find_element(By.XPATH, "//td[@title='2025-10-04']")
+date_close = driver.find_element(By.XPATH, "(//a[@class='ant-picker-now-btn'][normalize-space()='Today'])[1]")
 date_close.click()
 
 # Event Introduction
@@ -195,7 +195,14 @@ home_btn.send_keys("Download Resources")
 
 # Redirects to
 redirect = driver.find_element(By.XPATH, "//input[@id='homepageButtonLink']")
-redirect.click()
+redirect.click() #unfinished part
+
+# Homepage Image
+home_image = driver.find_element(By.XPATH, "//input[@type='file']")
+driver.execute_script("arguments[0].scrollIntoView(true);", home_image)
+driver.execute_script("arguments[0].style.display = 'block';", home_image)
+home_image.send_keys("C:/Users/Tulip/OneDrive - TulipTech LTD/Desktop/Test_Logos/abstract-science-fiction-futuristic-background-with-red-blue-neon-lights.jpg")
+
 
 
 
