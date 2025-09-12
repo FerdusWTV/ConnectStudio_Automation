@@ -150,6 +150,9 @@ driver.execute_script("arguments[0].click();", save_btn) #click save btn
 time.sleep(5)
 wait.until(EC.presence_of_element_located((By.ID, "swal2-html-container")))
 
+home_btn = wait.until(EC.presence_of_element_located((By.XPATH, "//div[contains(text(),'Home')]")))
+driver.execute_script("arguments[0].click();", home_btn)
+
 home_title = driver.find_element(By.XPATH, "//p[@class='general-info-title']").text
 print(f"home_title: {home_title}")
 
