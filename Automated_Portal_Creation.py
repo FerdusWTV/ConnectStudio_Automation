@@ -175,17 +175,15 @@ subtitle.send_keys("This is a automated subtitle!!!")
 # Portal Opening date
 opening_date = driver.find_element(By.XPATH, "//input[@name='date']")
 opening_date.click()
-today_btn = driver.find_element(By.XPATH, "//a[normalize-space()='Today']")
+today_btn = driver.find_element(By.XPATH, "(//a[normalize-space()='Today'])[1]")
 today_btn.click()
 
 # Portal Closing date
 closing_date = driver.find_element(By.XPATH, "//input[@name='closingDate']")
 closing_date.click()
-#next_page_btn
-next_btn = driver.find_element(By.XPATH, "//div[@class='ant-picker-dropdown css-1vgwa6h ant-picker-dropdown-placement-bottomLeft']//div[@class='ant-picker-panel-container ant-picker-date-panel-container']//div[@class='ant-picker-panel-layout']//div//button[@aria-label='Next month (PageDown)']")
-next_btn.click()
 #closing date
-date_close = driver.find_element(By.XPATH, "(//a[@class='ant-picker-now-btn'][normalize-space()='Today'])[1]")
+time.sleep(1)
+date_close = wait.until(EC.element_to_be_clickable((By.XPATH, "(//a[normalize-space()='Today'])[2]")))
 date_close.click()
 
 # Event Introduction
@@ -205,7 +203,9 @@ home_image = driver.find_element(By.XPATH, "//input[@type='file']")
 driver.execute_script("arguments[0].scrollIntoView(true);", home_image)
 driver.execute_script("arguments[0].style.display = 'block';", home_image)
 home_image.send_keys("C:/Users/Tulip/OneDrive - TulipTech LTD/Desktop/Test_Logos/abstract-science-fiction-futuristic-background-with-red-blue-neon-lights.jpg")
-
+# set btn
+home_image_set_button = wait.until(EC.element_to_be_clickable((By.XPATH, "//button[normalize-space()='Set']")))
+home_image_set_button.click()
 
 
 
