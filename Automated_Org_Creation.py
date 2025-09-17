@@ -5,7 +5,7 @@ from dotenv import load_dotenv
 from selenium import webdriver
 from selenium.webdriver.chrome.service import Service
 from selenium.webdriver.common.by import By
-from selenium.webdriver.support import expected_conditions as EC
+from selenium.webdriver.support import EC as EC
 from selenium.webdriver.support.wait import WebDriverWait
 
 service_obj = Service("C:/Users/Tulip/Downloads/chromedriver-win64/chromedriver.exe")
@@ -58,7 +58,7 @@ assert 'All Organizations' in org_text
 
 # # Targeted org page switch
 # for i in range(13):
-#     element = wait.until(expected_conditions.element_to_be_clickable((By.CSS_SELECTOR, "a[aria-label='Next page']")))
+#     element = wait.until(EC.element_to_be_clickable((By.CSS_SELECTOR, "a[aria-label='Next page']")))
 #     driver.execute_script("arguments[0].scrollIntoView(true);", element)
 #     time.sleep(1)
 #     element.click()
@@ -88,13 +88,13 @@ temp.click()
 
 
 # Wait for the modal body
-modal_body = wait.until(expected_conditions.presence_of_element_located((By.CLASS_NAME, "ant-modal-body")))
+modal_body = wait.until(EC.presence_of_element_located((By.CLASS_NAME, "ant-modal-body")))
 
 # Scroll to bottom of modal
 driver.execute_script("arguments[0].scrollTop = arguments[0].scrollHeight", modal_body)
 
 # Wait for the button to be clickable
-save_button = wait.until(expected_conditions.element_to_be_clickable((By.CSS_SELECTOR, "button.connect-studio-small-save-button")))
+save_button = wait.until(EC.element_to_be_clickable((By.CSS_SELECTOR, "button.connect-studio-small-save-button")))
 
 # Click the button
 # save_button.click()
