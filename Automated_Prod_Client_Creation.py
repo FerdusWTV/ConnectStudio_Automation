@@ -5,7 +5,7 @@ from dotenv import load_dotenv
 from selenium import webdriver
 from selenium.webdriver.chrome.service import Service
 from selenium.webdriver.common.by import By
-from selenium.webdriver.support import expected_conditions
+from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.support.wait import WebDriverWait
 
 service_obj = Service("C:/Users/Tulip/Downloads/chromedriver-win64/chromedriver.exe")
@@ -33,7 +33,7 @@ driver.find_element(By.CLASS_NAME, 'login-button').click()
 time.sleep(5)
 
 #login validation wait
-wait.until(expected_conditions.presence_of_element_located((By.CLASS_NAME, 'swal2-container')))
+wait.until(EC.presence_of_element_located((By.CLASS_NAME, 'swal2-container')))
 
 # ======================================================================================================================
 
@@ -46,7 +46,7 @@ assert 'Welcome' in welcome
 
 #org page access validation
 driver.find_element(By.XPATH, "//li[3]").click()
-org_page = wait.until(expected_conditions.presence_of_element_located((By.CLASS_NAME, "page-header-title")))
+org_page = wait.until(EC.presence_of_element_located((By.CLASS_NAME, "page-header-title")))
 org_page_text = org_page.text
 print(f'Accessed Organization Page successfully: {org_page_text}')
 assert 'All Organizations' in org_page_text
@@ -54,36 +54,16 @@ assert 'All Organizations' in org_page_text
 # ======================================================================================================================
 
 # navigate to the targeted organization
-# max_page = 15
-# page_no = 0
-
-# while page_no < max_page:
-#     try:
-#         targeted_org = quick_wait.until(
-#             expected_conditions.presence_of_element_located((By.XPATH, "//h6[normalize-space()='Automated Test ORG']")))
-#         print(f'Found the targeted organization: {targeted_org.text}')
-#         break
-#     except:
-#         page_no += 1
-#         print(f'Moving to page: {page_no}')
-#         next_btn = quick_wait.until(
-#             expected_conditions.element_to_be_clickable((By.CSS_SELECTOR, "a[aria-label='Next page']")))
-#         driver.execute_script("arguments[0].scrollIntoView(true);", next_btn)
-#         time.sleep(1)
-#         next_btn.click()
-# else:
-#     raise Exception("❌ Target organization not found.")
-
-# driver.find_element(By.XPATH, "(//div[@class='org-card-arrow'])[8]").click()
-
-# navigate to the targeted organization
 # search for the org
-driver.find_element(By.CLASS_NAME, "connect-studio-search-input-small").send_keys("Automated")
+driver.find_element(By.CLASS_NAME, "connect-studio-search-input-small").send_keys("Wtv Developers")
 
 # click the org
 try:
-    wait.until(expected_conditions.presence_of_element_located((By.XPATH, "//h6[normalize-space()='Automated Test ORG']")))
-    driver.find_element(By.CLASS_NAME, "org-card-arrow-icon").click()
+    time.sleep(1)
+    wait.until(EC.presence_of_element_located((By.XPATH, "//h6[normalize-space()='Wtv Developers']")))
+    time.sleep(1)
+    arrow_btn = wait.until(EC.presence_of_element_located((By.CLASS_NAME, "org-card-arrow-icon")))
+    arrow_btn.click()
 except:
     print('Org not found')
     
@@ -99,7 +79,7 @@ client_btn_text = driver.find_element(By.CLASS_NAME, "save-button").text
 print(f'client btn: {client_btn_text}')
 driver.find_element(By.CLASS_NAME, "save-button").click() #click the add new client
 
-driver.find_element(By.CSS_SELECTOR, "input[name='name']").send_keys("Automated client 002")
+driver.find_element(By.CSS_SELECTOR, "input[name='name']").send_keys("Automated Prod client 001")
 
 driver.find_element(By.ID, "rc_select_0").click()
 driver.find_element(By.XPATH, "//div[@title='English']").click()
@@ -108,13 +88,13 @@ driver.find_element(By.ID, "rc_select_1").click()
 driver.find_element(By.XPATH, "//div[text()='Modern - popular user experience style comprised of 3D elements']").click()
 
 # Wait for the modal body
-modal_body = wait.until(expected_conditions.presence_of_element_located((By.CLASS_NAME, "ant-modal-body")))
+modal_body = wait.until(EC.presence_of_element_located((By.CLASS_NAME, "ant-modal-body")))
 
 # Scroll to bottom of modal
 driver.execute_script("arguments[0].scrollTop = arguments[0].scrollHeight", modal_body)
 
 # Wait for the button to be clickable
-save_button = wait.until(expected_conditions.element_to_be_clickable((By.CLASS_NAME, "custom-save-btn")))
+save_button = wait.until(EC.element_to_be_clickable((By.CLASS_NAME, "custom-save-btn")))
 # save_button.click()
 
 time.sleep(3)

@@ -17,9 +17,9 @@ driver.implicitly_wait(5)
 # Load env variable
 load_dotenv()
 
-url = os.getenv("URL")
-email = os.getenv("EMAIL")
-password = os.getenv("PASSWORD")
+url = os.getenv("URL_prod")
+email = os.getenv("EMAIL_prod")
+password = os.getenv("PASSWORD_prod")
 
 wait = WebDriverWait(driver, 10)
 quick_wait = WebDriverWait(driver, 1)
@@ -207,7 +207,7 @@ home_image.send_keys("C:/Users/Tulip/OneDrive - TulipTech LTD/Desktop/Test_Logos
 home_image_set_button = wait.until(EC.element_to_be_clickable((By.XPATH, "//button[normalize-space()='Set']")))
 home_image_set_button.click()
 
-
+# 
 
 
 
