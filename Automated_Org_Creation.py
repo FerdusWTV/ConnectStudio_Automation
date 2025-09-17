@@ -5,7 +5,7 @@ from dotenv import load_dotenv
 from selenium import webdriver
 from selenium.webdriver.chrome.service import Service
 from selenium.webdriver.common.by import By
-from selenium.webdriver.support import expected_conditions
+from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.support.wait import WebDriverWait
 
 service_obj = Service("C:/Users/Tulip/Downloads/chromedriver-win64/chromedriver.exe")
@@ -33,7 +33,7 @@ driver.find_element(By.CLASS_NAME, 'login-button').click()
 time.sleep(5)
 
 #login validation wait
-wait.until(expected_conditions.presence_of_element_located((By.CLASS_NAME, 'swal2-container')))
+wait.until(EC.presence_of_element_located((By.CLASS_NAME, 'swal2-container')))
 
 # ======================================================================================================================
 
@@ -71,11 +71,21 @@ create_org_btn = driver.find_element(By.CLASS_NAME, "save-button").text
 driver.find_element(By.CLASS_NAME, "save-button").click()
 print(f'create_org_btn: {create_org_btn}')
 
-# org form fillup
-driver.find_element(By.CSS_SELECTOR, "input[type='text']:nth-child(2)").send_keys('Automated_Test_ORG')
-driver.find_element(By.CSS_SELECTOR, "input[type='file']").send_keys("C:/Users/Tulip/OneDrive - TulipTech LTD/Desktop/Test_Logos/wtv.png")
+## org form fillup
+
+# Org Name
+org_name = wait.until(EC.presence_of_element_located((By.CSS_SELECTOR, "input[type='text']:nth-child(2)")))
+org_name.send_keys('Automated_Test_ORG')
+
+#org Logo
+org_logo = wait.until(EC.presence_of_element_located((By.CSS_SELECTOR, "input[type='file']")))
+org_logo.send_keys("C:/Users/Tulip/OneDrive - TulipTech LTD/Desktop/Test_Logos/wtv.png")
+
+#org Template
 driver.find_element(By.ID, "rc_select_1").click()
-driver.find_element(By.XPATH, "//div[text()='Modern - popular user experience style comprised of 3D elements']").click()
+temp = wait.until(EC.presence_of_element_located((By.XPATH, "//div[text()='Modern - popular user experience style comprised of 3D elements']")))
+temp.click()
+
 
 # Wait for the modal body
 modal_body = wait.until(expected_conditions.presence_of_element_located((By.CLASS_NAME, "ant-modal-body")))
