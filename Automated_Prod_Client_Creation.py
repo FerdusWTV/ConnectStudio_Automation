@@ -82,10 +82,13 @@ driver.find_element(By.CLASS_NAME, "save-button").click() #click the add new cli
 driver.find_element(By.CSS_SELECTOR, "input[name='name']").send_keys("Automated Prod client 001")
 
 driver.find_element(By.ID, "rc_select_0").click()
-driver.find_element(By.XPATH, "//div[@title='English']").click()
+time.sleep(1)
+lan_btn = wait.until(EC.presence_of_element_located((By.XPATH, "//div[@title='English']")))
+lan_btn.click()
 
 driver.find_element(By.ID, "rc_select_1").click()
-driver.find_element(By.XPATH, "//div[text()='Modern - popular user experience style comprised of 3D elements']").click()
+theme_btn = wait.until(EC.presence_of_element_located((By.XPATH, "//div[text()='Modern - popular user experience style comprised of 3D elements']")))
+theme_btn.click()
 
 # Wait for the modal body
 modal_body = wait.until(EC.presence_of_element_located((By.CLASS_NAME, "ant-modal-body")))
