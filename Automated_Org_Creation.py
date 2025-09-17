@@ -52,17 +52,17 @@ assert 'All Organizations' in org_text
 
 # ======================================================================================================================
 
-#Total Page count
-total_page = driver.find_element(By.CSS_SELECTOR, "aside[class='children'] li:nth-child(10)").text
-print(f"Total Organization Page: {total_page}")
+# #Total Page count
+# total_page = driver.find_element(By.CSS_SELECTOR, "aside[class='children'] li:nth-child(10)").text
+# print(f"Total Organization Page: {total_page}")
 
-# Targeted org page switch
-for i in range(13):
-    element = wait.until(expected_conditions.element_to_be_clickable((By.CSS_SELECTOR, "a[aria-label='Next page']")))
-    driver.execute_script("arguments[0].scrollIntoView(true);", element)
-    time.sleep(1)
-    element.click()
-    print(i)
+# # Targeted org page switch
+# for i in range(13):
+#     element = wait.until(expected_conditions.element_to_be_clickable((By.CSS_SELECTOR, "a[aria-label='Next page']")))
+#     driver.execute_script("arguments[0].scrollIntoView(true);", element)
+#     time.sleep(1)
+#     element.click()
+#     print(i)
 
 # ======================================================================================================================
 
@@ -73,7 +73,7 @@ print(f'create_org_btn: {create_org_btn}')
 
 # org form fillup
 driver.find_element(By.CSS_SELECTOR, "input[type='text']:nth-child(2)").send_keys('Automated_Test_ORG')
-driver.find_element(By.CSS_SELECTOR, "input[type='file']").send_keys("C:/Users/Tulip/OneDrive - TulipTech LTD/Desktop/wtv.png")
+driver.find_element(By.CSS_SELECTOR, "input[type='file']").send_keys("C:/Users/Tulip/OneDrive - TulipTech LTD/Desktop/Test_Logos/wtv.png")
 driver.find_element(By.ID, "rc_select_1").click()
 driver.find_element(By.XPATH, "//div[text()='Modern - popular user experience style comprised of 3D elements']").click()
 
