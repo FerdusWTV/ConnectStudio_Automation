@@ -163,9 +163,11 @@ wait.until(EC.presence_of_element_located((By.ID, "swal2-html-container")))
 # wait for the branding info to get saved in the local storage
 time.sleep(10)
 
+# ============================================================================================================
+
+# Home page access validation
 home_title = driver.find_element(By.XPATH, "//p[@class='general-info-title']").text
 print(f"home_title: {home_title}")
-
 assert "General" in home_title
 # ============================================================================================================
 
@@ -242,7 +244,7 @@ home_image_set_button.click()
 # Home page save button
 home_save_btn = wait.until(EC.presence_of_element_located((By.XPATH, "//button[normalize-space()='Save & Next']")))
 home_save_btn_name = home_save_btn.text
-print(f"home_page_save_btn_name: {save_btn_name}")
+print(f"home_page_save_btn_name: {home_save_btn_name}")
 driver.execute_script("arguments[0].scrollIntoView(true);", home_save_btn)
 time.sleep(5)
 driver.execute_script("arguments[0].click();", home_save_btn) #click save btn
@@ -252,6 +254,59 @@ time.sleep(5)
 wait.until(EC.presence_of_element_located((By.ID, "swal2-html-container")))
 
 # ============================================================================================================
+
+# Regsitration page validation
+reg_title = driver.find_element(By.XPATH, "//p[@class='user-management-title']").text
+print(f"Registration_page_title: {reg_title}")
+assert "Access" in reg_title
+
+# ============================================================================================================
+
+
+
+
+
+
+# ==================================================================================================================================================
+# ==================================================================================================================================================
+
+
+
+
+
+##### Registration Registration Registration Registration #####
+
+# Enable registration
+reg_require_btn = wait.until(EC.element_to_be_clickable((By.XPATH, "(//span[@class='slider round'])[1]")))
+reg_require_btn.click()
+
+# ============================================================================================================
+
+# Save registration page
+reg_page_save_btn = wait.until(EC.element_to_be_clickable((By.XPATH, "//button[normalize-space()='Save & Next']")))
+reg_save_btn_name = reg_page_save_btn.text
+print(f"reg_page_save_btn_name: {reg_save_btn_name}")
+driver.execute_script("arguments[0].scrollIntoView(true);", reg_page_save_btn)
+driver.execute_script("arguments[0].click();", reg_page_save_btn)
+
+# Registration page save confirmation
+time.sleep(5)
+wait.until(EC.presence_of_element_located((By.ID, "swal2-html-container")))
+
+# ============================================================================================================
+
+# Sessions Page title
+session_title = driver.find_element(By.XPATH, "//div[@class='webcast-summary-title']").text
+print(f"session_Page_Title: {session_title}")
+assert "Live" in session_title
+
+# ============================================================================================================
+
+
+
+
+
+
 
 
 
