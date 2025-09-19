@@ -19,6 +19,8 @@ load_dotenv()
 url = os.getenv("URL")
 email = os.getenv("EMAIL")
 password = os.getenv("PASSWORD")
+tenant = os.getenv("Tenant_ID")
+token = os.getenv("Token_ID")
 
 wait = WebDriverWait(driver, 10)
 quick_wait = WebDriverWait(driver, 1)
@@ -52,18 +54,6 @@ assert 'All Organizations' in org_text
 
 # ======================================================================================================================
 
-# #Total Page count
-# total_page = driver.find_element(By.CSS_SELECTOR, "aside[class='children'] li:nth-child(10)").text
-# print(f"Total Organization Page: {total_page}")
-
-# # Targeted org page switch
-# for i in range(13):
-#     element = wait.until(expected_conditions.element_to_be_clickable((By.CSS_SELECTOR, "a[aria-label='Next page']")))
-#     driver.execute_script("arguments[0].scrollIntoView(true);", element)
-#     time.sleep(1)
-#     element.click()
-#     print(i)
-
 # navigate to the targeted organization
 # search for the org
 driver.find_element(By.CLASS_NAME, "connect-studio-search-input-small").send_keys("Automated")
@@ -93,8 +83,8 @@ driver.find_element(By.CSS_SELECTOR, "input[type='text']:nth-child(2)").send_key
 driver.find_element(By.CSS_SELECTOR, "input[type='file']").send_keys("C:/Users/Tulip/Desktop/wtv.png") #logo
 driver.find_element(By.CLASS_NAME, 'switch.m-0').click() #Kollective Enable
 wait.until(expected_conditions.presence_of_element_located((By.CSS_SELECTOR, "input[name='tenantId']")))
-driver.find_element(By.CSS_SELECTOR, "input[name='tenantId']").send_keys("d5736c7b-cab5-405c-840d-c6235e98f6e7") #Tenant ID
-driver.find_element(By.CSS_SELECTOR, "input[name='tokenId']").send_keys("56717e8b-73b9-458c-8cf9-34193f976315") #Token ID
+driver.find_element(By.CSS_SELECTOR, "input[name='tenantId']").send_keys("tenant") #Tenant ID
+driver.find_element(By.CSS_SELECTOR, "input[name='tokenId']").send_keys("token") #Token ID
 driver.find_element(By.ID, "rc_select_1").click() #Template Click
 driver.find_element(By.XPATH, "//div[text()='Modern - popular user experience style comprised of 3D elements']").click() # Template Select
 

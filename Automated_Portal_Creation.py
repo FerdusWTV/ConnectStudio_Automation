@@ -17,9 +17,13 @@ driver.implicitly_wait(5)
 # Load env variable
 load_dotenv()
 
-url = os.getenv("URL_prod")
-email = os.getenv("EMAIL_prod")
-password = os.getenv("PASSWORD_prod")
+url = os.getenv("URL")
+email = os.getenv("EMAIL")
+password = os.getenv("PASSWORD")
+
+# url = os.getenv("URL_prod")
+# email = os.getenv("EMAIL_prod")
+# password = os.getenv("PASSWORD_prod")
 
 wait = WebDriverWait(driver, 10)
 quick_wait = WebDriverWait(driver, 1)
@@ -46,11 +50,10 @@ assert 'Welcome' in welcome
 
 # ======================================================================================================================
 
+# Create Portal Button
 create_portal_btn = driver.find_element(By.XPATH, "//div[contains(text(),'Create Portal')]")
 portal_btn_text = create_portal_btn.text
 print(f"portal_btn_text: {portal_btn_text}")
-
-# ======================================================================================================================
 
 # click the create portal btn
 driver.find_element(By.XPATH, "//li[@class='show']").click()
@@ -76,6 +79,7 @@ time.sleep(1)
 template = wait.until(EC.element_to_be_clickable((By.XPATH, "//div[@title='Material - popular user experience style comprised of 3D elements']")))
 template.click()
 
+# ============================================================================================================
 
 # header menu logo
 logo = wait.until(EC.presence_of_element_located((By.XPATH, "(//input[@type='file'])[1]")))
@@ -102,7 +106,7 @@ driver.execute_script("arguments[0].scrollIntoView(true);", reg_email_image)
 driver.execute_script("arguments[0].style.display = 'block';", reg_email_image)
 reg_email_image.send_keys("C:/Users/Tulip/OneDrive - TulipTech LTD/Desktop/Test_Logos/download.png")
 #crop logo & set
-# time.sleep(1)
+time.sleep(1)
 reg_set_button = wait.until(EC.element_to_be_clickable((By.XPATH, "//button[normalize-space()='Set']")))
 reg_set_button.click()
 
@@ -114,7 +118,7 @@ driver.execute_script("arguments[0].scrollIntoView(true);", reg_logo)
 driver.execute_script("arguments[0].style.display = 'block';", reg_logo)
 reg_logo.send_keys("C:/Users/Tulip/OneDrive - TulipTech LTD/Desktop/Test_Logos/logo007.png")
 #crop logo & set
-# time.sleep(1)
+time.sleep(1)
 reg_logo_set_button = wait.until(EC.element_to_be_clickable((By.XPATH, "//button[normalize-space()='Set']")))
 reg_logo_set_button.click()
 
@@ -141,7 +145,7 @@ wait.until(EC.visibility_of_element_located((By.XPATH, "//div[@class='home-page'
 # save button
 save_btn = wait.until(EC.visibility_of_element_located((By.XPATH, "//button[normalize-space()='Save & Next']")))
 save_btn_name = save_btn.text
-print(f"save_btn_name: {save_btn_name}")
+print(f"Branding_save_btn_name: {save_btn_name}")
 driver.execute_script("arguments[0].scrollIntoView(true);", save_btn)
 time.sleep(1)
 driver.execute_script("arguments[0].click();", save_btn) #click save btn
@@ -150,13 +154,27 @@ driver.execute_script("arguments[0].click();", save_btn) #click save btn
 time.sleep(5)
 wait.until(EC.presence_of_element_located((By.ID, "swal2-html-container")))
 
-home_btn = wait.until(EC.presence_of_element_located((By.XPATH, "//div[contains(text(),'Home')]")))
-driver.execute_script("arguments[0].click();", home_btn)
+# ============================================================================================================
+
+## optional if the home page is not automatically clicked enable this
+# home_btn = wait.until(EC.presence_of_element_located((By.XPATH, "//div[contains(text(),'Home')]")))
+# driver.execute_script("arguments[0].click();", home_btn)
+
+# wait for the branding info to get saved in the local storage
+time.sleep(10)
 
 home_title = driver.find_element(By.XPATH, "//p[@class='general-info-title']").text
 print(f"home_title: {home_title}")
 
 assert "General" in home_title
+# ============================================================================================================
+
+
+
+
+
+# ==================================================================================================================================================
+# ==================================================================================================================================================
 
 
 
@@ -172,6 +190,8 @@ title.send_keys("This is a Automated Title! Please read this!!!")
 subtitle = driver.find_element(By.XPATH, "//input[@id='subTitle']")
 subtitle.send_keys("This is a automated subtitle!!!")
 
+# ============================================================================================================
+
 # Portal Opening date
 opening_date = driver.find_element(By.XPATH, "//input[@name='date']")
 opening_date.click()
@@ -186,28 +206,54 @@ time.sleep(1)
 date_close = wait.until(EC.element_to_be_clickable((By.XPATH, "(//a[normalize-space()='Today'])[2]")))
 date_close.click()
 
+# ============================================================================================================
+
 # Event Introduction
+time.sleep(1) #to prevent from the page to crash as it is a p tag that take some time to load and take the data.
 intro = driver.find_element(By.XPATH, "//div[@class='ql-editor ql-blank']//p")
 intro.send_keys("This is a Automated Event Introduction. Please read this intro!!! If you can see this than the script is working correctly!!!")
 
+# ============================================================================================================
+
 # Homepage Button Label(optional)
-home_btn = driver.find_element(By.XPATH, "//input[@id='homepageButton']")
+home_btn = wait.until(EC.presence_of_element_located((By.XPATH, "//input[@id='homepageButton']")))
+driver.execute_script("arguments[0].scrollIntoView(true);", home_btn)
 home_btn.send_keys("Download Resources")
 
 # Redirects to
-redirect = driver.find_element(By.XPATH, "//input[@id='homepageButtonLink']")
-redirect.click() #unfinished part
+wait.until(EC.presence_of_element_located((By.XPATH, "//input[@id='homepageButtonLink']"))).click()
+redirect_menu = wait.until(EC.presence_of_element_located((By.XPATH, "//div[@class='rc-virtual-list-holder-inner']")))
+driver.execute_script("arguments[0].scrollTop = arguments[0].scrollHeight", redirect_menu)
+driver.find_element(By.XPATH, "//div[@title='Resource']").click()
+
+# ============================================================================================================
 
 # Homepage Image
 home_image = driver.find_element(By.XPATH, "//input[@type='file']")
 driver.execute_script("arguments[0].scrollIntoView(true);", home_image)
 driver.execute_script("arguments[0].style.display = 'block';", home_image)
-home_image.send_keys("C:/Users/Tulip/OneDrive - TulipTech LTD/Desktop/Test_Logos/abstract-science-fiction-futuristic-background-with-red-blue-neon-lights.jpg")
+home_image.send_keys("C:/Users/Tulip/OneDrive - TulipTech LTD/Desktop/Test_Logos/download.png")
 # set btn
 home_image_set_button = wait.until(EC.element_to_be_clickable((By.XPATH, "//button[normalize-space()='Set']")))
 home_image_set_button.click()
 
-# 
+# ============================================================================================================
+
+# Home page save button
+home_save_btn = wait.until(EC.presence_of_element_located((By.XPATH, "//button[normalize-space()='Save & Next']")))
+home_save_btn_name = home_save_btn.text
+print(f"home_page_save_btn_name: {save_btn_name}")
+driver.execute_script("arguments[0].scrollIntoView(true);", home_save_btn)
+time.sleep(5)
+driver.execute_script("arguments[0].click();", home_save_btn) #click save btn
+
+# Home page save confirmation
+time.sleep(5)
+wait.until(EC.presence_of_element_located((By.ID, "swal2-html-container")))
+
+# ============================================================================================================
+
+
 
 
 
