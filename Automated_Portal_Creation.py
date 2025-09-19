@@ -211,7 +211,7 @@ date_close.click()
 # ============================================================================================================
 
 # Event Introduction
-time.sleep(1) #to prevent from the page to crash as it is a p tag that take some time to load and take the data.
+time.sleep(5) #to prevent from the page to crash as it is a p tag that take some time to load and take the data.
 intro = driver.find_element(By.XPATH, "//div[@class='ql-editor ql-blank']//p")
 intro.send_keys("This is a Automated Event Introduction. Please read this intro!!! If you can see this than the script is working correctly!!!")
 
@@ -295,7 +295,7 @@ wait.until(EC.presence_of_element_located((By.ID, "swal2-html-container")))
 
 # ============================================================================================================
 
-# Sessions Page title
+# Sessions Page access confirmation
 session_title = driver.find_element(By.XPATH, "//div[@class='webcast-summary-title']").text
 print(f"session_Page_Title: {session_title}")
 assert "Live" in session_title
@@ -303,6 +303,47 @@ assert "Live" in session_title
 # ============================================================================================================
 
 
+
+
+
+# ==================================================================================================================================================
+# ==================================================================================================================================================
+
+
+
+
+
+##### Session Session Session Session #####
+
+
+# ============================================================================================================
+
+# Save Session Page
+session_page_save_btn = wait.until(EC.element_to_be_clickable((By.XPATH, "//button[normalize-space()='Save & Next']")))
+session_page_save_btn_name = session_page_save_btn.text
+print(f"session_page_save_btn_name: {session_page_save_btn}")
+driver.execute_script("arguments[0].scrollIntoView(true);", session_page_save_btn)
+driver.execute_script("arguments[0].click();", session_page_save_btn)
+
+# # Session page save confirmation
+# time.sleep(5)
+# wait.until(EC.presence_of_element_located((By.ID, "swal2-html-container")))
+
+# ============================================================================================================
+
+
+
+
+
+
+# ==================================================================================================================================================
+# ==================================================================================================================================================
+
+
+
+
+
+##### Speaker Speaker Speaker Speaker #####
 
 
 
