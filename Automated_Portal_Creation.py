@@ -290,8 +290,8 @@ driver.execute_script("arguments[0].scrollIntoView(true);", reg_page_save_btn)
 driver.execute_script("arguments[0].click();", reg_page_save_btn)
 
 # Registration page save confirmation
-time.sleep(5)
-wait.until(EC.presence_of_element_located((By.ID, "swal2-html-container")))
+# time.sleep(5)
+# wait.until(EC.presence_of_element_located((By.ID, "swal2-html-container")))
 
 # ============================================================================================================
 
@@ -329,6 +329,11 @@ driver.execute_script("arguments[0].click();", session_page_save_btn)
 # time.sleep(5)
 # wait.until(EC.presence_of_element_located((By.ID, "swal2-html-container")))
 
+# speaker page validation
+speaker_page = wait.until(EC.presence_of_element_located((By.XPATH, "//p[@class='our-speaker-title']")))
+speaker_page_title = speaker_page.text
+print(f"speaker_page_title: {speaker_page_title}")
+
 # ============================================================================================================
 
 
@@ -345,7 +350,7 @@ driver.execute_script("arguments[0].click();", session_page_save_btn)
 
 ##### Speaker Speaker Speaker Speaker #####
 
-
+# wait.until(EC.element_to_be_clickable)
 
 
 
