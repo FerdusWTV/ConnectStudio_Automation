@@ -212,21 +212,18 @@ date_close.click()
 
 # Event Introduction
 time.sleep(5) #to prevent from the page to crash as it is a p tag that take some time to load and take the data.
-intro = driver.find_element(By.XPATH, "//div[@class='ql-editor ql-blank']//p")
+# intro = driver.find_element(By.XPATH, "//div[@class='ql-editor ql-blank']//p")
+intro = driver.find_element(By.XPATH, "//div[@class='ql-editor ql-blank']")
 intro.send_keys("This is a Automated Event Introduction. Please read this intro!!! If you can see this than the script is working correctly!!!")
 
 # ============================================================================================================
 
-# Homepage Button Label(optional)
-home_btn = wait.until(EC.presence_of_element_located((By.XPATH, "//input[@id='homepageButton']")))
-driver.execute_script("arguments[0].scrollIntoView(true);", home_btn)
-home_btn.send_keys("Download Resources")
+# # Homepage Button Label(optional)
+# home_btn = wait.until(EC.presence_of_element_located((By.XPATH, "//input[@id='homepageButton']")))
+# driver.execute_script("arguments[0].scrollIntoView(true);", home_btn)
+# home_btn.send_keys("Download Resources")
 
-# Redirects to
-wait.until(EC.presence_of_element_located((By.XPATH, "//input[@id='homepageButtonLink']"))).click()
-redirect_menu = wait.until(EC.presence_of_element_located((By.XPATH, "//div[@class='rc-virtual-list-holder-inner']")))
-driver.execute_script("arguments[0].scrollTop = arguments[0].scrollHeight", redirect_menu)
-driver.find_element(By.XPATH, "//div[@title='Resource']").click()
+#    
 
 # ============================================================================================================
 
@@ -333,6 +330,7 @@ driver.execute_script("arguments[0].click();", session_page_save_btn)
 speaker_page = wait.until(EC.presence_of_element_located((By.XPATH, "//p[@class='our-speaker-title']")))
 speaker_page_title = speaker_page.text
 print(f"speaker_page_title: {speaker_page_title}")
+assert "Event" in speaker_page_title
 
 # ============================================================================================================
 
@@ -348,9 +346,33 @@ print(f"speaker_page_title: {speaker_page_title}")
 
 
 
+
 ##### Speaker Speaker Speaker Speaker #####
 
-# wait.until(EC.element_to_be_clickable)
+speaker_enable_button = wait.until(EC.presence_of_element_located((By.XPATH, "//input[@type='checkbox']")))
+driver.execute_script("arguments[0].scrollIntoView(true);", speaker_enable_button)
+driver.execute_script("arguments[0].style.display = 'block';", speaker_enable_button)
+driver.execute_script("arguments[0].click();", speaker_enable_button)
+time.sleep(3)
+driver.execute_script("arguments[0].click();", speaker_enable_button)
+
+# ============================================================================================================
+
+# speaker page save button
+speaker_save_btn = wait.until(EC.presence_of_element_located((By.XPATH, "//button[normalize-space()='Save & Next']")))
+driver.execute_script("arguments[0].scrollIntoView(true);", speaker_save_btn)
+driver.execute_script("arguments[0].click();", speaker_save_btn)
+
+# ============================================================================================================
+
+#speaker page save validation
+agenda_title = wait.until(EC.presence_of_element_located((By.XPATH, "//p[@class='agenda-title']")))
+agenda_page_title = agenda_title.text
+print(f"agenda_title: {agenda_page_title}")
+assert "Event" in agenda_page_title
+
+
+
 
 
 
