@@ -8,6 +8,16 @@ from selenium.webdriver.common.by import By
 from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.support.wait import WebDriverWait
 from selenium.webdriver.common.action_chains import ActionChains
+from selenium.webdriver.chrome.options import Options
+
+options = Options()
+options.add_argument("--disable-extensions")
+options.add_argument("--disable-gpu")
+options.add_argument("--no-sandbox")
+options.add_argument("--disable-dev-shm-usage")
+options.add_argument("--remote-allow-origins=*")
+
+driver = webdriver.Chrome(options=options)
 
 service_obj = Service("C:/Users/Tulip/Downloads/chromedriver-win64/chromedriver.exe")
 driver = webdriver.Chrome(service = service_obj)
@@ -25,7 +35,7 @@ password = os.getenv("PASSWORD")
 # email = os.getenv("EMAIL_prod")
 # password = os.getenv("PASSWORD_prod")
 
-wait = WebDriverWait(driver, 10)
+wait = WebDriverWait(driver, 30)
 quick_wait = WebDriverWait(driver, 1)
 actions = ActionChains(driver)
 
@@ -60,27 +70,26 @@ driver.find_element(By.XPATH, "//li[@class='show']").click()
 
 
 
-
-
-
-
-
-
 # ======================================================================================================================
 # branding page fillup
+# ======================================================================================================================
+
+
 
 # select organization
 org_menu_box = wait.until(EC.presence_of_element_located((By.ID, "rc_select_0")))
 org_menu_box.click()
 org_menu = wait.until(EC.presence_of_element_located((By.XPATH, "//div[@class='rc-virtual-list-holder']")))
 driver.execute_script("arguments[0].scrollTop = arguments[0].scrollHeight", org_menu)
-driver.find_element(By.XPATH, "//div[@title='Automated Test ORG']").click()
+# driver.find_element(By.XPATH, "//div[@title='Automated Test ORG']").click()
+wait.until(EC.presence_of_element_located((By.XPATH, "//div[@title='Automated Test ORG']"))).click()
 
 # select client
 driver.find_element(By.ID, "rc_select_1").click()
 client_menu = driver.find_element(By.CLASS_NAME, "rc-virtual-list-holder-inner")
 driver.execute_script("arguments[0].scrollTop = arguments[0].scrollHeight", client_menu)
-driver.find_element(By.XPATH, "//div[contains(text(),'Automated client 002')]").click()
+# driver.find_element(By.XPATH, "//div[contains(text(),'Automated client 002')]").click()
+wait.until(EC.presence_of_element_located((By.XPATH, "//div[contains(text(),'Automated client 002')]"))).click()
 
 # Template style (optional)
 driver.find_element(By.XPATH, "//div[@data-testid='template-style']").click()
@@ -151,7 +160,7 @@ wait.until(EC.visibility_of_element_located((By.XPATH, "//div[@class='home-page'
 
 # ============================================================================================================
 
-# save button
+# branding save button
 save_btn = wait.until(EC.visibility_of_element_located((By.XPATH, "//button[normalize-space()='Save & Next']")))
 save_btn_name = save_btn.text
 print(f"Branding_save_btn_name: {save_btn_name}")
@@ -357,8 +366,8 @@ speaker_enable_button = wait.until(EC.presence_of_element_located((By.XPATH, "//
 driver.execute_script("arguments[0].scrollIntoView(true);", speaker_enable_button)
 driver.execute_script("arguments[0].style.display = 'block';", speaker_enable_button)
 driver.execute_script("arguments[0].click();", speaker_enable_button)
-time.sleep(3)
-driver.execute_script("arguments[0].click();", speaker_enable_button)
+# time.sleep(3)
+# driver.execute_script("arguments[0].click();", speaker_enable_button)
 
 # ============================================================================================================
 
