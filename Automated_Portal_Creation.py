@@ -58,6 +58,14 @@ print(f"portal_btn_text: {portal_btn_text}")
 # click the create portal btn
 driver.find_element(By.XPATH, "//li[@class='show']").click()
 
+
+
+
+
+
+
+
+
 # ======================================================================================================================
 # branding page fillup
 
@@ -177,13 +185,12 @@ assert "General" in home_title
 
 
 # ==================================================================================================================================================
+# Home
 # ==================================================================================================================================================
 
 
 
 
-
-##### Home Home Home Home Home #####
 
 # Title
 title = driver.find_element(By.XPATH, "//input[@id='eventName']")
@@ -264,13 +271,12 @@ assert "Access" in reg_title
 
 
 # ==================================================================================================================================================
+# Registration 
 # ==================================================================================================================================================
 
 
 
 
-
-##### Registration Registration Registration Registration #####
 
 # Enable registration
 reg_require_btn = wait.until(EC.presence_of_element_located((By.XPATH, "(//input[@type='checkbox'])[1]")))
@@ -304,13 +310,11 @@ assert "Live" in session_title
 
 
 # ==================================================================================================================================================
+# Session 
 # ==================================================================================================================================================
 
 
 
-
-
-##### Session Session Session Session #####
 
 
 # ============================================================================================================
@@ -340,6 +344,7 @@ assert "Event" in speaker_page_title
 
 
 # ==================================================================================================================================================
+# Speaker
 # ==================================================================================================================================================
 
 
@@ -347,7 +352,6 @@ assert "Event" in speaker_page_title
 
 
 
-##### Speaker Speaker Speaker Speaker #####
 
 speaker_enable_button = wait.until(EC.presence_of_element_located((By.XPATH, "//input[@type='checkbox']")))
 driver.execute_script("arguments[0].scrollIntoView(true);", speaker_enable_button)
@@ -369,10 +373,102 @@ driver.execute_script("arguments[0].click();", speaker_save_btn)
 agenda_title = wait.until(EC.presence_of_element_located((By.XPATH, "//p[@class='agenda-title']")))
 agenda_page_title = agenda_title.text
 print(f"agenda_title: {agenda_page_title}")
-assert "Event" in agenda_page_title
+assert "Agenda" in agenda_page_title
 
 
 
+# ==================================================================================================================================================
+# Agenda
+# ==================================================================================================================================================
+
+
+
+agenda_enable_button = wait.until(EC.presence_of_element_located((By.XPATH, "//input[@type='checkbox']")))
+driver.execute_script("arguments[0].scrollIntoView(true);", agenda_enable_button)
+driver.execute_script("arguments[0].style.display = 'block';", agenda_enable_button)
+driver.execute_script("arguments[0].click();", agenda_enable_button)
+# time.sleep(3)
+# driver.execute_script("arguments[0].click();", agenda_enable_button)
+
+# ============================================================================================================
+
+# Agenda page save button
+agenda_save_btn = wait.until(EC.presence_of_element_located((By.XPATH, "//button[normalize-space()='Save & Next']")))
+driver.execute_script("arguments[0].scrollIntoView(true);", agenda_save_btn)
+driver.execute_script("arguments[0].click();", agenda_save_btn)
+
+# ============================================================================================================
+
+# Agenda page save validation
+resource_title = wait.until(EC.presence_of_element_located((By.XPATH, "//p[@class='event-resources-title']")))
+resource_page_title = resource_title.text
+print(f"agenda_title: {resource_page_title}")
+assert "Resources" in resource_page_title
+
+
+
+
+# ==================================================================================================================================================
+# Resources
+# ==================================================================================================================================================
+
+
+
+
+resources_enable_button = wait.until(EC.presence_of_element_located((By.XPATH, "//input[@type='checkbox']")))
+driver.execute_script("arguments[0].scrollIntoView(true);", resources_enable_button)
+driver.execute_script("arguments[0].style.display = 'block';", resources_enable_button)
+driver.execute_script("arguments[0].click();", resources_enable_button)
+# time.sleep(3)
+# driver.execute_script("arguments[0].click();", resources_enable_button)
+
+# ============================================================================================================
+
+# speaker page save button
+resources_save_btn = wait.until(EC.presence_of_element_located((By.XPATH, "//button[normalize-space()='Save & Next']")))
+driver.execute_script("arguments[0].scrollIntoView(true);", resources_save_btn)
+driver.execute_script("arguments[0].click();", resources_save_btn)
+
+# ============================================================================================================
+
+#speaker page save validation
+video_title = wait.until(EC.presence_of_element_located((By.XPATH, "//p[@class='video-library-title']")))
+video_page_title = video_title.text
+print(f"resources_title: {video_page_title}")
+assert "Videos" in video_page_title
+
+
+
+
+
+# ==================================================================================================================================================
+# Resources
+# ==================================================================================================================================================
+
+
+
+
+video_enable_button = wait.until(EC.presence_of_element_located((By.XPATH, "//input[@type='checkbox']")))
+driver.execute_script("arguments[0].scrollIntoView(true);", video_enable_button)
+driver.execute_script("arguments[0].style.display = 'block';", video_enable_button)
+driver.execute_script("arguments[0].click();", video_enable_button)
+# time.sleep(3)
+# driver.execute_script("arguments[0].click();", video_enable_button)
+
+# ============================================================================================================
+
+# speaker page save button
+video_save_btn = wait.until(EC.presence_of_element_located((By.XPATH, "//button[normalize-space()='Save & Next']")))
+driver.execute_script("arguments[0].scrollIntoView(true);", video_save_btn)
+driver.execute_script("arguments[0].click();", video_save_btn)
+
+# ============================================================================================================
+
+#speaker page save validation
+publish_title = wait.until(EC.presence_of_element_located((By.XPATH, "//div[@class='publish-portal-title']")))
+publish_page_title = publish_title.text
+print(f"video_title: {publish_page_title}")
+assert "Publish" in publish_page_title
 
 
 
