@@ -62,7 +62,8 @@ driver.find_element(By.XPATH, "//li[@class='show']").click()
 # branding page fillup
 
 # select organization
-wait.until(EC.presence_of_element_located((By.ID, "rc_select_0"))).click()
+org_menu_box = wait.until(EC.presence_of_element_located((By.ID, "rc_select_0")))
+org_menu_box.click()
 org_menu = wait.until(EC.presence_of_element_located((By.XPATH, "//div[@class='rc-virtual-list-holder']")))
 driver.execute_script("arguments[0].scrollTop = arguments[0].scrollHeight", org_menu)
 driver.find_element(By.XPATH, "//div[@title='Automated Test ORG']").click()
@@ -188,9 +189,9 @@ assert "General" in home_title
 title = driver.find_element(By.XPATH, "//input[@id='eventName']")
 title.send_keys("This is a Automated Title! Please read this!!!")
 
-# Subtitle
-subtitle = driver.find_element(By.XPATH, "//input[@id='subTitle']")
-subtitle.send_keys("This is a automated subtitle!!!")
+# # Subtitle (NN)
+# subtitle = driver.find_element(By.XPATH, "//input[@id='subTitle']")
+# subtitle.send_keys("This is a automated subtitle!!!")
 
 # ============================================================================================================
 
@@ -223,18 +224,16 @@ intro.send_keys("This is a Automated Event Introduction. Please read this intro!
 # driver.execute_script("arguments[0].scrollIntoView(true);", home_btn)
 # home_btn.send_keys("Download Resources")
 
-#    
-
 # ============================================================================================================
 
-# Homepage Image
-home_image = driver.find_element(By.XPATH, "//input[@type='file']")
-driver.execute_script("arguments[0].scrollIntoView(true);", home_image)
-driver.execute_script("arguments[0].style.display = 'block';", home_image)
-home_image.send_keys("C:/Users/Tulip/OneDrive - TulipTech LTD/Desktop/Test_Logos/download.png")
-# set btn
-home_image_set_button = wait.until(EC.element_to_be_clickable((By.XPATH, "//button[normalize-space()='Set']")))
-home_image_set_button.click()
+# # Homepage Image
+# home_image = driver.find_element(By.XPATH, "//input[@type='file']")
+# driver.execute_script("arguments[0].scrollIntoView(true);", home_image)
+# driver.execute_script("arguments[0].style.display = 'block';", home_image)
+# home_image.send_keys("C:/Users/Tulip/OneDrive - TulipTech LTD/Desktop/Test_Logos/download.png")
+# # set btn
+# home_image_set_button = wait.until(EC.element_to_be_clickable((By.XPATH, "//button[normalize-space()='Set']")))
+# home_image_set_button.click()
 
 # ============================================================================================================
 
@@ -247,7 +246,7 @@ time.sleep(5)
 driver.execute_script("arguments[0].click();", home_save_btn) #click save btn
 
 # Home page save confirmation
-time.sleep(5)
+# time.sleep(5)
 wait.until(EC.presence_of_element_located((By.ID, "swal2-html-container")))
 
 # ============================================================================================================
@@ -274,13 +273,14 @@ assert "Access" in reg_title
 ##### Registration Registration Registration Registration #####
 
 # Enable registration
-reg_require_btn = wait.until(EC.element_to_be_clickable((By.XPATH, "(//span[@class='slider round'])[1]")))
-reg_require_btn.click()
+reg_require_btn = wait.until(EC.presence_of_element_located((By.XPATH, "(//input[@type='checkbox'])[1]")))
+driver.execute_script("arguments[0].style.display = 'block';", reg_require_btn)
+driver.execute_script("arguments[0].click();", reg_require_btn)
 
 # ============================================================================================================
 
 # Save registration page
-reg_page_save_btn = wait.until(EC.element_to_be_clickable((By.XPATH, "//button[normalize-space()='Save & Next']")))
+reg_page_save_btn = wait.until(EC.presence_of_element_located((By.XPATH, "//button[normalize-space()='Save & Next']")))
 reg_save_btn_name = reg_page_save_btn.text
 print(f"reg_page_save_btn_name: {reg_save_btn_name}")
 driver.execute_script("arguments[0].scrollIntoView(true);", reg_page_save_btn)
