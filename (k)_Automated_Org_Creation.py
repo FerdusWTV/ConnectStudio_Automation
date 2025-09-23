@@ -22,7 +22,7 @@ password = os.getenv("PASSWORD")
 tenant = os.getenv("Tenant_ID")
 token = os.getenv("Token_ID")
 
-wait = WebDriverWait(driver, 10)
+wait = WebDriverWait(driver, 30)
 quick_wait = WebDriverWait(driver, 1)
 
 # ======================================================================================================================

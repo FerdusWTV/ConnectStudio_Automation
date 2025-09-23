@@ -20,7 +20,7 @@ url = os.getenv("URL")
 email = os.getenv("EMAIL")
 password = os.getenv("PASSWORD")
 
-wait = WebDriverWait(driver, 10)
+wait = WebDriverWait(driver, 30)
 quick_wait = WebDriverWait(driver, 3)
 
 # ======================================================================================================================

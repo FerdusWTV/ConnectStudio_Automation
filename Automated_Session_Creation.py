@@ -25,7 +25,7 @@ password = os.getenv("PASSWORD")
 # email = os.getenv("EMAIL_prod")
 # password = os.getenv("PASSWORD_prod")
 
-wait = WebDriverWait(driver, 10)
+wait = WebDriverWait(driver, 30)
 quick_wait = WebDriverWait(driver, 1)
 actions = ActionChains(driver)
 
