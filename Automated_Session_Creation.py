@@ -38,15 +38,18 @@ driver.find_element(By.ID, 'password').send_keys(password)
 driver.find_element(By.CLASS_NAME, 'login-button').click()
 time.sleep(5)
 
-#login validation wait
+# login validation wait
 wait.until(EC.presence_of_element_located((By.CLASS_NAME, 'swal2-container')))
 
 # ======================================================================================================================
 
-#dashboard page validation
+# dashboard page validation
 welcome = wait.until(EC.presence_of_element_located((By.CLASS_NAME, 'header-title'))).text
 print(f'Login successful: {welcome}')
 assert 'Welcome' in welcome
 
 # ======================================================================================================================
 
+# click the organizaton button
+org_btn = wait.until(EC.presence_of_element_located((By.XPATH, "(//div[contains(text(),'Organization')])[1]")))
+driver.execute_script("arguments[0].click();", org_btn)
