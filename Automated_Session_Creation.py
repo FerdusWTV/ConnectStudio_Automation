@@ -1,4 +1,5 @@
 from http import client
+from pydoc import cli
 import time
 import os
 
@@ -57,6 +58,10 @@ org_btn_text = org_btn.text
 print(f"org_btn_text: {org_btn_text}")
 driver.execute_script("arguments[0].click();", org_btn)
 
+org_page = wait.until(EC.presence_of_element_located((By.XPATH, "//div[@class='page-header-title']")))
+org_page_title = org_page.text
+assert "Organizations" in org_page_title
+
 # ======================================================================================================================
 
 # click the page button
@@ -67,7 +72,6 @@ driver.execute_script("arguments[0].click();", btn_13)
 # ======================================================================================================================
 
 # click the organization card
-
 org_arrow = wait.until(EC.presence_of_element_located((By.XPATH, "(//div[@class='org-card-arrow'])[8]")))
 org_name = driver.find_element(By.XPATH, "//h6[normalize-space()='Automated Test ORG']").text
 print(f"org_name: {org_name}")
@@ -75,8 +79,32 @@ driver.execute_script("arguments[0].click();", org_arrow)
 
 # ======================================================================================================================
 
+# portal_page = wait.until(EC.presence_of_element_located((By.XPATH, "//div[@class='con-title']")))
+# portal_page_title = portal_page.text
+# print(f"portal_page_title: {portal_page_title}")
+# assert "Portals" in portal_page_title
+
 # click the client
-client_box = 
+client_box = wait.until(EC.presence_of_element_located((By.XPATH, "//tbody/tr[3]/td[3]")))
+client_name = driver.find_element(By.XPATH, "//td[normalize-space()='Automated client 002']").text
+print(f"client_name: {client_name}")
+driver.execute_script("arguments[0].scrollIntoView(true);", client_box)
+driver.execute_script("arguments[0].click();", client_box)
+
+# ======================================================================================================================
+
+portal_edit_btn = wait.until(EC.presence_of_element_located((By.XPATH, "(//div[@class='portal-action-button'][normalize-space()='Continue Editing'])[1]")))
+driver.execute_script("arguments[0].scrollIntoView(true);", portal_edit_btn)
+driver.execute_script("arguments[0].click();", portal_edit_btn)
+
+# ======================================================================================================================
+
+session_btn = wait.until(EC.presence_of_element_located((By.XPATH, "//div[contains(text(),'Sessions')]")))
+driver.execute_script("arguments[0].click();", session_btn)
+
+
+
+
 
 
 
