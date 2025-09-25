@@ -93,14 +93,30 @@ driver.execute_script("arguments[0].click();", client_box)
 
 # ======================================================================================================================
 
+# click the portal edit button
 portal_edit_btn = wait.until(EC.presence_of_element_located((By.XPATH, "(//div[@class='portal-action-button'][normalize-space()='Continue Editing'])[1]")))
 driver.execute_script("arguments[0].scrollIntoView(true);", portal_edit_btn)
 driver.execute_script("arguments[0].click();", portal_edit_btn)
 
 # ======================================================================================================================
 
+# click the sessions button of the portal
 session_btn = wait.until(EC.presence_of_element_located((By.XPATH, "//div[contains(text(),'Sessions')]")))
 driver.execute_script("arguments[0].click();", session_btn)
+
+# ======================================================================================================================
+
+# Click Schedule Webcast Button 
+webcast_creation_btn = wait.until(EC.presence_of_element_located((By.XPATH, "//div[@class='session-button-group-right']")))
+webcast_creation_btn.click()
+
+# Click the Create New Webcast button
+new_webcast_btn = wait.until(EC.presence_of_element_located((By.XPATH, "(//div[@class='stream-modal-container h-full'])[1]")))
+new_webcast_btn.click()
+
+# ======================================================================================================================
+
+
 
 
 
