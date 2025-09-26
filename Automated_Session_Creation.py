@@ -112,10 +112,9 @@ webcast_creation_btn.click()
 
 # Click the Create New Webcast button
 new_webcast_btn = wait.until(EC.presence_of_element_located((By.XPATH, "(//div[@class='stream-modal-container h-full'])[1]")))
-new_webcast_btn.click()
+driver.execute_script("arguments[0].click();", new_webcast_btn)
 
 # ======================================================================================================================
-
 
 
 
