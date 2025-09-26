@@ -116,6 +116,51 @@ driver.execute_script("arguments[0].click();", new_webcast_btn)
 
 # ======================================================================================================================
 
+# Create New Webcast form fillup (setp-1)
+webcast_title = wait.until(EC.presence_of_element_located((By.XPATH, "//input[@id='streamName']")))
+webcast_title.send_keys("Automated Webcast Title!!!")
+
+# next buttton-1
+webcast_title_next_btn = wait.until(EC.presence_of_element_located((By.XPATH, "//button[normalize-space()='Next']")))
+driver.execute_script("arguments[0].click();", webcast_title_next_btn)
+
+# Date select calendar (Step-2)
+webcast_date = wait.until(EC.presence_of_element_located((By.XPATH, "//input[@placeholder='Select date']")))
+webcast_date.click()
+# select date
+select_webcast_date = wait.until(EC.presence_of_element_located((By.XPATH, "//div[normalize-space()='25']")))
+driver.execute_script("arguments[0].click();", select_webcast_date)
+
+# select webcast time 
+webcast_time = wait.until(EC.presence_of_element_located((By.XPATH, "//input[@placeholder='Select time']")))
+webcast_time.click()
+#select time
+select_webcast_time = wait.until(EC.presence_of_element_located((By.XPATH, "//ul[@data-type='hour']//div[@class='ant-picker-time-panel-cell-inner'][normalize-space()='03']")))
+driver.execute_script("arguments[0].click();", select_webcast_time)
+
+# select webcast duration
+webcast_duration = wait.until(EC.presence_of_element_located((By.XPATH, "//input[@placeholder='Select duration']")))
+webcast_duration.click()
+#select duration
+select_webcast_duration = wait.until(EC.presence_of_element_located((By.XPATH, "(//div[@class='ant-picker-time-panel-cell-inner'][normalize-space()='01'])[3]")))
+driver.execute_script("arguments[0].click();", select_webcast_duration)
+
+# next button-2
+next_btn_2 = wait.until(EC.presence_of_element_located((By.XPATH, "//button[normalize-space()='Next']")))
+driver.execute_script("arguments[0].click();", next_btn_2)
+
+# step-3
+signal = wait.until(EC.presence_of_element_located((By.XPATH, "//input[@name='acquisitionSignal']")))
+driver.execute_script("arguments[0].style.display = 'block';", signal)
+driver.execute_script("arguments[0].click();", signal)
+
+# next button-3
+next_btn_3 = wait.until(EC.presence_of_element_located((By.XPATH, "//button[normalize-space()='Next']")))
+driver.execute_script("arguments[0].click();", next_btn_3)
+
+# create webcast btn
+next_btn_3 = wait.until(EC.presence_of_element_located((By.XPATH, "//button[@class='save-button d-flex flex-row justify-items-center']")))
+driver.execute_script("arguments[0].click();", next_btn_3)
 
 
 
