@@ -101,6 +101,7 @@ driver.execute_script("arguments[0].click();", portal_edit_btn)
 # ======================================================================================================================
 
 # click the sessions button of the portal
+time.sleep(5)
 session_btn = wait.until(EC.presence_of_element_located((By.XPATH, "//div[contains(text(),'Sessions')]")))
 driver.execute_script("arguments[0].click();", session_btn)
 
@@ -120,6 +121,7 @@ driver.execute_script("arguments[0].click();", new_webcast_btn)
 webcast_title = wait.until(EC.presence_of_element_located((By.XPATH, "//input[@id='streamName']")))
 webcast_title.send_keys("Automated Webcast Title!!!")
 
+# time.sleep(5)
 # next buttton-1
 webcast_title_next_btn = wait.until(EC.presence_of_element_located((By.XPATH, "//button[normalize-space()='Next']")))
 driver.execute_script("arguments[0].click();", webcast_title_next_btn)
@@ -145,6 +147,7 @@ webcast_duration.click()
 select_webcast_duration = wait.until(EC.presence_of_element_located((By.XPATH, "(//div[@class='ant-picker-time-panel-cell-inner'][normalize-space()='01'])[3]")))
 driver.execute_script("arguments[0].click();", select_webcast_duration)
 
+# time.sleep(5)
 # next button-2
 next_btn_2 = wait.until(EC.presence_of_element_located((By.XPATH, "//button[normalize-space()='Next']")))
 driver.execute_script("arguments[0].click();", next_btn_2)
@@ -154,6 +157,7 @@ signal = wait.until(EC.presence_of_element_located((By.XPATH, "//input[@name='ac
 driver.execute_script("arguments[0].style.display = 'block';", signal)
 driver.execute_script("arguments[0].click();", signal)
 
+# time.sleep(5)
 # next button-3
 next_btn_3 = wait.until(EC.presence_of_element_located((By.XPATH, "//button[normalize-space()='Next']")))
 driver.execute_script("arguments[0].click();", next_btn_3)
@@ -161,6 +165,36 @@ driver.execute_script("arguments[0].click();", next_btn_3)
 # create webcast btn
 next_btn_3 = wait.until(EC.presence_of_element_located((By.XPATH, "//button[@class='save-button d-flex flex-row justify-items-center']")))
 driver.execute_script("arguments[0].click();", next_btn_3)
+
+wait.until(EC.presence_of_element_located((By.ID, "swal2-html-container")))
+
+# webcast creation validation
+webcast_title_validation = wait.until(EC.presence_of_element_located((By.XPATH, "//div[normalize-space()='Automated Webcast Title!!!']")))
+webcast_title_validation_text = webcast_title_validation.text
+print(f"webcast_title_validation_text: {webcast_title_validation}")
+assert "Automated" in webcast_title_validation_text
+
+# ======================================================================================================================
+
+# Activate Webcast
+activate_btn = wait.until(EC.presence_of_element_located((By.XPATH, "//button[@role='switch']")))
+driver.execute_script("arguments[0].click();", activate_btn)
+
+# Activate Webcast validation
+wait.until(EC.presence_of_element_located((By.ID, "swal2-html-container")))
+
+# Manage webcast
+driver.find_element(By.XPATH, "//button[normalize-space()='Manage']").click()
+
+# Manage webcast validation
+webcast_manage_page = wait.until(EC.presence_of_element_located((By.XPATH, "//div[normalize-space()='Configure your webcast']")))
+webcast_manage_page_title = webcast_manage_page.text
+print(f"webcast_manage_page_title: {webcast_manage_page_title}")
+assert "Configure" in webcast_manage_page_title
+
+# ======================================================================================================================
+
+
 
 
 
