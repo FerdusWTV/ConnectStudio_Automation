@@ -194,8 +194,14 @@ assert "Configure" in webcast_manage_page_title
 
 # ======================================================================================================================
 
+time.sleep(1)
+content_btn = wait.until(EC.presence_of_element_located((By.XPATH, "(//button[normalize-space()='Content'])[1]")))
+driver.execute_script("arguments[0].click();", content_btn)
 
-
+slide_upload = wait.until(EC.presence_of_element_located((By.XPATH, "(//input[@type='file'])[1]")))
+driver.execute_script("arguments[0].style.display = 'block';", slide_upload)
+driver.execute_script("arguments[0].click();", slide_upload)
+slide_upload.send_keys(r"C:\Users\Tulip\OneDrive - TulipTech LTD\Desktop\Test_Slides\9 page - Project Timeline Presentation.pdf")
 
 
 

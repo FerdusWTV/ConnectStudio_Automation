@@ -456,7 +456,6 @@ assert "Videos" in video_page_title
 
 
 
-
 video_enable_button = wait.until(EC.presence_of_element_located((By.XPATH, "//input[@type='checkbox']")))
 driver.execute_script("arguments[0].scrollIntoView(true);", video_enable_button)
 driver.execute_script("arguments[0].style.display = 'block';", video_enable_button)
