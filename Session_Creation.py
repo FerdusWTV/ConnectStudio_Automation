@@ -45,8 +45,8 @@ actions = ActionChains(driver)
 # ------------------------------------Please add the necessary infos here-----------------------------------------------
 # ======================================================================================================================
 
-target_portal = "AUTO's live."
-# target_portal = "Session Automation Portal 001"
+# target_portal = "AUTO's live."
+target_portal = "Session Automation Portal 001"
 new_webcast_title = "Automated Webcast Title - 001!!!"
 
 # ======================================================================================================================
@@ -115,7 +115,8 @@ driver.execute_script("arguments[0].click();", new_webcast_btn)
 webcast_title = wait.until(EC.presence_of_element_located((By.XPATH, "//input[@id='streamName']")))
 webcast_title.send_keys(new_webcast_title)
 
-# time.sleep(5)
+time.sleep(3)
+
 # next buttton-1
 webcast_title_next_btn = wait.until(EC.presence_of_element_located((By.XPATH, "//button[normalize-space()='Next']")))
 driver.execute_script("arguments[0].click();", webcast_title_next_btn)
@@ -160,46 +161,68 @@ driver.execute_script("arguments[0].click();", next_btn_3)
 next_btn_3 = wait.until(EC.presence_of_element_located((By.XPATH, "//button[@class='save-button d-flex flex-row justify-items-center']")))
 driver.execute_script("arguments[0].click();", next_btn_3)
 
+time.sleep(3)
 wait.until(EC.presence_of_element_located((By.ID, "swal2-html-container")))
 
 # ======================================================================================================================
 
-def find_and_activate_sesion (driver: webdriver.Chrome, target_event_name: str): 
+def find_and_activate_session(driver: webdriver.Chrome, target_event_name: str): 
+    wait = WebDriverWait(driver, 10)
+
     try:
-        webcast_summaries = wait.until(EC.visibility_of_all_elements_located((By.CLASS_NAME, "webcast-summary")))
-        print(f"Envet summaries has {len(webcast_summaries)} summaries.")
-        print(f"Webcast Summaries: {webcast_summaries}")
+        webcast_summaries = wait.until(
+            EC.visibility_of_all_elements_located((By.CLASS_NAME, "webcast-summary"))
+        )
+        print(f"Event summaries found: {len(webcast_summaries)}")
     except Exception as e:
         print(f"Could not find any webcast summary. Error: {e}")
         return
     
     for summary in webcast_summaries:
         try:
-            webcast_name = summary.find_element(By.XPATH, ".//div[contains(@class, 'webcast-summary-event-name')]//div[contains(@class, 'webcast-summary-background')]")
-
+            # 1. Extract the event name
+            webcast_name = summary.find_element(
+                By.XPATH,
+                ".//div[contains(@class, 'webcast-summary-event-name')]//div[contains(@class, 'webcast-summary-background')]"
+            )
             current_webcast = webcast_name.text.strip()
-            print(f"Searching for webcast: {current_webcast}")
+            print(f"Checking webcast: {current_webcast}")
             
-            if current_webcast == new_webcast_title:
-                print(f"Match Found for webcast '{new_webcast_title}'")
+            if current_webcast.strip().casefold() == target_event_name.strip().casefold():
+                print(f"Match Found for webcast '{target_event_name}'")
                 
-                activate_btn = wait.until(EC.presence_of_element_located((By.XPATH, ".//div[contains(@class, 'webcast-summary-activate')]//button")))
+                # 2. Find the Activate button within THIS summary
+                activate_btn = WebDriverWait(summary, 10).until(
+                    EC.element_to_be_clickable(
+                        (By.XPATH, ".//div[contains(@class, 'webcast-summary-activate')]//button")
+                    )
+                )
                 activate_btn.click()
-                print("Webcast activated!")
-                # wait for it to get activated 
-                wait.until(EC.presence_of_element_located((By.ID, "swal2-html-container")))
+                print("Clicked the 'Activate' button.")
                 
-                manage_button = summary.find_element(By.XPATH,".//div[contains(@class, 'webcast-manage-column')]//button")
+                # Optional: wait for any popup / update after activation
+                try:
+                    wait.until(EC.presence_of_element_located((By.ID, "swal2-html-container")))
+                    print("Popup detected after Activate.")
+                except:
+                    pass
+                
+                # 3. Find the Manage button within THIS summary
+                manage_button = WebDriverWait(summary, 10).until(
+                    EC.element_to_be_clickable(
+                        (By.XPATH, ".//div[contains(@class, 'webcast-manage-column')]//button")
+                    )
+                )
                 manage_button.click()
                 print("Clicked the 'Manage' button.")
-                # wait for it to get activated 
-                wait.until(EC.presence_of_element_located((By.ID, "swal2-html-container")))
                 
-                return
+                return  # Stop after successful interaction
+                
         except Exception as e:
-            print(f"Error while accessing the webcast summary: {e}")
+            print(f"Error while processing a webcast summary: {e}")
     
-    print(f"Target event '{target_event_name}' was not found in the list.")
+    print(f"Target webcast '{target_event_name}' was not found in the list.")
+
                 
         
-find_and_activate_sesion(driver, target_portal)
+find_and_activate_session (driver, new_webcast_title)
