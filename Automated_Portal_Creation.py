@@ -1,3 +1,5 @@
+from http import client
+from pydoc import cli
 import time
 import os
 
@@ -6,7 +8,7 @@ from selenium import webdriver
 from selenium.webdriver.chrome.service import Service
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support import expected_conditions as EC
-from selenium.webdriver.support.wait import WebDriverWait
+from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.common.action_chains import ActionChains
 from selenium.webdriver.chrome.options import Options
 
@@ -23,6 +25,10 @@ service_obj = Service("C:/Users/Tulip/Downloads/chromedriver-win64/chromedriver.
 driver = webdriver.Chrome(service = service_obj)
 driver.maximize_window()
 driver.implicitly_wait(5)
+
+
+Event_Title = "Session Automation Portal 001"
+
 
 # Load env variable
 load_dotenv()
@@ -203,7 +209,7 @@ assert "General" in home_title
 
 # Title
 title = driver.find_element(By.XPATH, "//input[@id='eventName']")
-title.send_keys("This is a Automated Title! Please read this!!!")
+title.send_keys(Event_Title)
 
 # # Subtitle (NN)
 # subtitle = driver.find_element(By.XPATH, "//input[@id='subTitle']")

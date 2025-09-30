@@ -42,6 +42,16 @@ quick_wait = WebDriverWait(driver, 1)
 actions = ActionChains(driver)
 
 # ======================================================================================================================
+# ------------------------------------Please add the necessary infos here-----------------------------------------------
+# ======================================================================================================================
+
+target_portal = "AUTO's live."
+# target_portal = "Session Automation Portal 001"
+new_webcast_title = "Automated Webcast Title - 001!!!"
+
+# ======================================================================================================================
+# ------------------------------------------------Thank You!------------------------------------------------------------
+# ======================================================================================================================
 
 # login form
 driver.get(url)
@@ -62,58 +72,32 @@ assert 'Welcome' in welcome
 
 # ======================================================================================================================
 
-# click the organizaton button
-org_btn = wait.until(EC.presence_of_element_located((By.XPATH, "(//div[contains(text(),'Organization')])[1]")))
-org_btn_text = org_btn.text
-print(f"org_btn_text: {org_btn_text}")
-driver.execute_script("arguments[0].click();", org_btn)
+# search the portal
+search_box = wait.until(EC.presence_of_element_located((By.XPATH, "//input[@placeholder='Search portal']")))
+search_box.click()
+search_box.send_keys(target_portal)
 
-org_page = wait.until(EC.presence_of_element_located((By.XPATH, "//div[@class='page-header-title']")))
-org_page_title = org_page.text
-assert "Organizations" in org_page_title
+edit_btn = wait.until(EC.presence_of_element_located((By.XPATH, "//button[normalize-space()='Edit']")))
+driver.execute_script("arguments[0].click();", edit_btn)
 
-# ======================================================================================================================
-
-# click the page button
-btn_13 = wait.until(EC.presence_of_element_located((By.XPATH, "//a[normalize-space()='13']")))
-driver.execute_script("arguments[0].scrollIntoView(true);", btn_13)
-driver.execute_script("arguments[0].click();", btn_13)
+# validate
+portal_title = wait.until(EC.presence_of_element_located((By.XPATH, "(//p[@class='branding-information-text mt-1'])[1]")))
+portal_title_text = portal_title.text
+print(f"portal_title_text: {portal_title_text}")
+assert "Portal" in portal_title_text 
 
 # ======================================================================================================================
 
-# click the organization card
-org_arrow = wait.until(EC.presence_of_element_located((By.XPATH, "(//div[@class='org-card-arrow'])[8]")))
-org_name = driver.find_element(By.XPATH, "//h6[normalize-space()='Automated Test ORG']").text
-print(f"org_name: {org_name}")
-driver.execute_script("arguments[0].click();", org_arrow)
-
-# ======================================================================================================================
-
-# portal_page = wait.until(EC.presence_of_element_located((By.XPATH, "//div[@class='con-title']")))
-# portal_page_title = portal_page.text
-# print(f"portal_page_title: {portal_page_title}")
-# assert "Portals" in portal_page_title
-
-# click the client
-client_box = wait.until(EC.presence_of_element_located((By.XPATH, "//tbody/tr[3]/td[3]")))
-client_name = driver.find_element(By.XPATH, "//td[normalize-space()='Automated client 002']").text
-print(f"client_name: {client_name}")
-driver.execute_script("arguments[0].scrollIntoView(true);", client_box)
-driver.execute_script("arguments[0].click();", client_box)
-
-# ======================================================================================================================
-
-# click the portal edit button
-portal_edit_btn = wait.until(EC.presence_of_element_located((By.XPATH, "(//div[@class='portal-action-button'][normalize-space()='Continue Editing'])[1]")))
-driver.execute_script("arguments[0].scrollIntoView(true);", portal_edit_btn)
-driver.execute_script("arguments[0].click();", portal_edit_btn)
-
-# ======================================================================================================================
-
-# click the sessions button of the portal
+# Click Session button
 time.sleep(2)
 session_btn = wait.until(EC.presence_of_element_located((By.XPATH, "//div[contains(text(),'Sessions')]")))
 driver.execute_script("arguments[0].click();", session_btn)
+
+# validation
+session_title = wait.until(EC.presence_of_element_located((By.XPATH, "//div[@class='webcast-summary-title']")))
+session_title_text = session_title.text
+print(f"session_title_text: {session_title_text}")
+assert "Live" in session_title_text
 
 # ======================================================================================================================
 
@@ -129,7 +113,7 @@ driver.execute_script("arguments[0].click();", new_webcast_btn)
 
 # Create New Webcast form fillup (setp-1)
 webcast_title = wait.until(EC.presence_of_element_located((By.XPATH, "//input[@id='streamName']")))
-webcast_title.send_keys("Automated Webcast Title - 001!!!")
+webcast_title.send_keys(new_webcast_title)
 
 # time.sleep(5)
 # next buttton-1
@@ -178,73 +162,44 @@ driver.execute_script("arguments[0].click();", next_btn_3)
 
 wait.until(EC.presence_of_element_located((By.ID, "swal2-html-container")))
 
-# webcast creation validation
-webcast_title_validation = wait.until(EC.presence_of_element_located((By.XPATH, "//div[normalize-space()='Automated Webcast Title!!!']")))
-webcast_title_validation_text = webcast_title_validation.text
-print(f"webcast_title_validation_text: {webcast_title_validation}")
-assert "Automated" in webcast_title_validation_text
-
 # ======================================================================================================================
 
-# Activate Webcast
-activate_btn = wait.until(EC.presence_of_element_located((By.XPATH, "//button[@role='switch']")))
-driver.execute_script("arguments[0].click();", activate_btn)
+def find_and_activate_sesion (driver: webdriver.Chrome, target_event_name: str): 
+    try:
+        webcast_summaries = wait.until(EC.visibility_of_all_elements_located((By.CLASS_NAME, "webcast-summary")))
+        print(f"Envet summaries has {len(webcast_summaries)} summaries.")
+        print(f"Webcast Summaries: {webcast_summaries}")
+    except Exception as e:
+        print(f"Could not find any webcast summary. Error: {e}")
+        return
+    
+    for summary in webcast_summaries:
+        try:
+            webcast_name = summary.find_element(By.XPATH, ".//div[contains(@class, 'webcast-summary-event-name')]//div[contains(@class, 'webcast-summary-background')]")
 
-# Activate Webcast validation
-wait.until(EC.presence_of_element_located((By.ID, "swal2-html-container")))
-
-# Manage webcast
-driver.find_element(By.XPATH, "//button[normalize-space()='Manage']").click()
-
-# Manage webcast validation
-webcast_manage_page = wait.until(EC.presence_of_element_located((By.XPATH, "//div[normalize-space()='Configure your webcast']")))
-webcast_manage_page_title = webcast_manage_page.text
-print(f"webcast_manage_page_title: {webcast_manage_page_title}")
-assert "Configure" in webcast_manage_page_title
-
-# ======================================================================================================================
-
-# preview webcast slide upload
-time.sleep(1)
-content_btn = wait.until(EC.presence_of_element_located((By.XPATH, "(//button[normalize-space()='Content'])[1]")))
-driver.execute_script("arguments[0].click();", content_btn)
-
-slide_upload = wait.until(EC.presence_of_element_located((By.XPATH, "(//input[@type='file'])[1]")))
-driver.execute_script("arguments[0].style.display = 'block';", slide_upload)
-driver.execute_script("arguments[0].click();", slide_upload)
-slide_upload.send_keys(r"C:\Users\Tulip\OneDrive - TulipTech LTD\Desktop\Test_Slides\9 page - Project Timeline Presentation.pdf")
-
-# preview webcast video upload
-time.sleep(1)
-content_btn = wait.until(EC.presence_of_element_located((By.XPATH, "(//button[normalize-space()='Content'])[1]")))
-driver.execute_script("arguments[0].click();", content_btn)
-
-slide_upload = wait.until(EC.presence_of_element_located((By.XPATH, "(//input[@type='file'])[1]")))
-driver.execute_script("arguments[0].style.display = 'block';", slide_upload)
-driver.execute_script("arguments[0].click();", slide_upload)
-slide_upload.send_keys(r"C:\Users\Tulip\OneDrive - TulipTech LTD\Desktop\Test_Videos\Em Beihold - Numb Little Bug (Official Lyric Video).mp4")
-
-# preview save button 
-priview_save_btn = wait.until(EC.presence_of_element_located((By.XPATH, "//button[normalize-space()='Save']")))
-priview_save_btn.click()
-
-# ======================================================================================================================
-
-# change to live page
-status_dropdown = wait.until(EC.presence_of_element_located((By.XPATH, "//span[@title='Preview']")))
-status_dropdown.click()
-
-# choose live
-status_live = wait.until(EC.presence_of_element_located((By.XPATH, "//div[contains(text(),'Live')]")))
-status_live.click()
-
-
-
-
-
-
-
-
-
-
-time.sleep(5)
+            current_webcast = webcast_name.text.strip()
+            print(f"Searching for webcast: {current_webcast}")
+            
+            if current_webcast == new_webcast_title:
+                print(f"Match Found for webcast '{new_webcast_title}'")
+                
+                activate_btn = wait.until(EC.presence_of_element_located((By.XPATH, ".//div[contains(@class, 'webcast-summary-activate')]//button")))
+                activate_btn.click()
+                print("Webcast activated!")
+                # wait for it to get activated 
+                wait.until(EC.presence_of_element_located((By.ID, "swal2-html-container")))
+                
+                manage_button = summary.find_element(By.XPATH,".//div[contains(@class, 'webcast-manage-column')]//button")
+                manage_button.click()
+                print("Clicked the 'Manage' button.")
+                # wait for it to get activated 
+                wait.until(EC.presence_of_element_located((By.ID, "swal2-html-container")))
+                
+                return
+        except Exception as e:
+            print(f"Error while accessing the webcast summary: {e}")
+    
+    print(f"Target event '{target_event_name}' was not found in the list.")
+                
+        
+find_and_activate_sesion(driver, target_portal)

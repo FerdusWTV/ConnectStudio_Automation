@@ -6,7 +6,7 @@ from selenium import webdriver
 from selenium.webdriver.chrome.service import Service
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support import expected_conditions
-from selenium.webdriver.support.wait import WebDriverWait
+from selenium.webdriver.support.ui import WebDriverWait
 
 service_obj = Service("C:/Users/Tulip/Downloads/chromedriver-win64/chromedriver.exe")
 driver = webdriver.Chrome(service = service_obj)
