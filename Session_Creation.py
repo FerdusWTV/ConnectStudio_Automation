@@ -166,32 +166,34 @@ wait.until(EC.presence_of_element_located((By.ID, "swal2-html-container")))
 
 # ======================================================================================================================
 
-def find_and_activate_session(driver: webdriver.Chrome, target_event_name: str): 
-    wait = WebDriverWait(driver, 10)
+def find_and_activate_session(driver: webdriver.Chrome, target_event_name: str):
+    wait = WebDriverWait(driver, 15)
+    
+    def get_webcast_summaries():
+        return wait.until(
+            EC.presence_of_all_elements_located((By.CLASS_NAME, "webcast-summary"))
+        )
 
     try:
-        webcast_summaries = wait.until(
-            EC.visibility_of_all_elements_located((By.CLASS_NAME, "webcast-summary"))
-        )
+        webcast_summaries = get_webcast_summaries()
         print(f"Event summaries found: {len(webcast_summaries)}")
     except Exception as e:
         print(f"Could not find any webcast summary. Error: {e}")
         return
-    
+
     for summary in webcast_summaries:
         try:
-            # 1. Extract the event name
             webcast_name = summary.find_element(
                 By.XPATH,
                 ".//div[contains(@class, 'webcast-summary-event-name')]//div[contains(@class, 'webcast-summary-background')]"
             )
             current_webcast = webcast_name.text.strip()
             print(f"Checking webcast: {current_webcast}")
-            
+
             if current_webcast.strip().casefold() == target_event_name.strip().casefold():
-                print(f"Match Found for webcast '{target_event_name}'")
-                
-                # 2. Find the Activate button within THIS summary
+                print(f"✅ Match Found for webcast '{target_event_name}'")
+
+                # Click Activate
                 activate_btn = WebDriverWait(summary, 10).until(
                     EC.element_to_be_clickable(
                         (By.XPATH, ".//div[contains(@class, 'webcast-summary-activate')]//button")
@@ -199,30 +201,100 @@ def find_and_activate_session(driver: webdriver.Chrome, target_event_name: str):
                 )
                 activate_btn.click()
                 print("Clicked the 'Activate' button.")
-                
-                # Optional: wait for any popup / update after activation
-                try:
-                    wait.until(EC.presence_of_element_located((By.ID, "swal2-html-container")))
-                    print("Popup detected after Activate.")
-                except:
-                    pass
-                
-                # 3. Find the Manage button within THIS summary
-                manage_button = WebDriverWait(summary, 10).until(
-                    EC.element_to_be_clickable(
-                        (By.XPATH, ".//div[contains(@class, 'webcast-manage-column')]//button")
-                    )
-                )
-                manage_button.click()
-                print("Clicked the 'Manage' button.")
-                
-                return  # Stop after successful interaction
-                
+
+                # Wait for popup and close/confirm it
+                wait.until(EC.presence_of_element_located((By.ID, "swal2-html-container")))
+                print("Popup detected after Activate.")
+                time.sleep(2)
+
+                # 🔁 Re-locate the summary after DOM update
+                webcast_summaries = get_webcast_summaries()
+                for updated_summary in webcast_summaries:
+                    try:
+                        updated_name = updated_summary.find_element(
+                            By.XPATH,
+                            ".//div[contains(@class, 'webcast-summary-event-name')]//div[contains(@class, 'webcast-summary-background')]"
+                        ).text.strip()
+
+                        if updated_name.strip().casefold() == target_event_name.strip().casefold():
+                            manage_button = WebDriverWait(updated_summary, 10).until(
+                                EC.element_to_be_clickable(
+                                    (By.XPATH, ".//div[contains(@class, 'webcast-manage-column')]//button")
+                                )
+                            )
+                            manage_button.click()
+                            print("🎯 Clicked the 'Manage' button successfully.")
+                            return
+                    except Exception:
+                        continue
         except Exception as e:
             print(f"Error while processing a webcast summary: {e}")
     
-    print(f"Target webcast '{target_event_name}' was not found in the list.")
-
-                
-        
 find_and_activate_session (driver, new_webcast_title)
+
+webcast_managment_page = wait.until(EC.presence_of_element_located((By.XPATH, "//div[normalize-space()='Configure your webcast']")))
+webcast_managment_page_title = webcast_managment_page.text
+print(f"webcast_managment_page_title: {webcast_managment_page_title}")
+assert "Configure" in webcast_managment_page_title
+
+# ======================================================================================================================
+
+# preview webcast slide upload
+time.sleep(1)
+content_btn = wait.until(EC.presence_of_element_located((By.XPATH, "(//button[normalize-space()='Content'])[1]")))
+driver.execute_script("arguments[0].click();", content_btn)
+
+slide_upload = wait.until(EC.presence_of_element_located((By.XPATH, "(//input[@type='file'])[1]")))
+driver.execute_script("arguments[0].style.display = 'block';", slide_upload)
+driver.execute_script("arguments[0].click();", slide_upload)
+slide_upload.send_keys(r"C:\Users\Tulip\OneDrive - TulipTech LTD\Desktop\Test_Slides\9 page - Project Timeline Presentation.pdf")
+
+# preview webcast video upload
+time.sleep(1)
+content_btn = wait.until(EC.presence_of_element_located((By.XPATH, "(//button[normalize-space()='Content'])[1]")))
+driver.execute_script("arguments[0].click();", content_btn)
+
+slide_upload = wait.until(EC.presence_of_element_located((By.XPATH, "(//input[@type='file'])[1]")))
+driver.execute_script("arguments[0].style.display = 'block';", slide_upload)
+driver.execute_script("arguments[0].click();", slide_upload)
+slide_upload.send_keys(r"C:\Users\Tulip\OneDrive - TulipTech LTD\Desktop\Test_Videos\Em Beihold - Numb Little Bug (Official Lyric Video).mp4")
+
+# preview save button 
+preview_save_btn = wait.until(EC.presence_of_element_located((By.XPATH, "//button[normalize-space()='Save']")))
+preview_save_btn.click()
+
+# ======================================================================================================================
+
+# change to live page
+status_dropdown = wait.until(EC.presence_of_element_located((By.XPATH, "//span[@title='Preview']")))
+status_dropdown.click()
+
+# choose live
+status_live = wait.until(EC.presence_of_element_located((By.XPATH, "//div[contains(text(),'Live')]")))
+status_live.click()
+
+# live webcast slide upload
+time.sleep(1)
+content_btn = wait.until(EC.presence_of_element_located((By.XPATH, "(//button[normalize-space()='Content'])[1]")))
+driver.execute_script("arguments[0].click();", content_btn)
+
+slide_upload = wait.until(EC.presence_of_element_located((By.XPATH, "(//input[@type='file'])[1]")))
+driver.execute_script("arguments[0].style.display = 'block';", slide_upload)
+driver.execute_script("arguments[0].click();", slide_upload)
+slide_upload.send_keys(r"C:\Users\Tulip\OneDrive - TulipTech LTD\Desktop\Test_Slides\9 page - Project Timeline Presentation.pdf")
+
+#  wait for the popup to 
+time.sleep(1)
+wait.until(EC.presence_of_element_located((By.ID, "swal2-html-container")))
+
+# live save button
+live_save_btn = wait.until(EC.presence_of_element_located((By.XPATH, "//button[normalize-space()='Save']")))
+live_save_btn.click()
+
+
+
+
+
+
+
+time.sleep(5)
