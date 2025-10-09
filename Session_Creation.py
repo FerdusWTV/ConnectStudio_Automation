@@ -249,21 +249,13 @@ driver.execute_script("arguments[0].style.display = 'block';", slide_upload)
 driver.execute_script("arguments[0].click();", slide_upload)
 slide_upload.send_keys(r"C:\Users\Tulip\OneDrive - TulipTech LTD\Desktop\Test_Slides\9 page - Project Timeline Presentation.pdf")
 
-# preview webcast video upload
-time.sleep(1)
-content_btn = wait.until(EC.presence_of_element_located((By.XPATH, "(//button[normalize-space()='Content'])[1]")))
-driver.execute_script("arguments[0].click();", content_btn)
-
-slide_upload = wait.until(EC.presence_of_element_located((By.XPATH, "(//input[@type='file'])[1]")))
-driver.execute_script("arguments[0].style.display = 'block';", slide_upload)
-driver.execute_script("arguments[0].click();", slide_upload)
-slide_upload.send_keys(r"C:\Users\Tulip\OneDrive - TulipTech LTD\Desktop\Test_Videos\Em Beihold - Numb Little Bug (Official Lyric Video).mp4")
-
 # preview save button 
 preview_save_btn = wait.until(EC.presence_of_element_located((By.XPATH, "//button[normalize-space()='Save']")))
-preview_save_btn.click()
+driver.execute_script("arguments[0].click();", preview_save_btn)
 
-# ======================================================================================================================
+#  wait for the popup to 
+time.sleep(5)
+wait.until(EC.presence_of_element_located((By.ID, "swal2-html-container")))
 
 # change to live page
 status_dropdown = wait.until(EC.presence_of_element_located((By.XPATH, "//span[@title='Preview']")))
@@ -283,13 +275,36 @@ driver.execute_script("arguments[0].style.display = 'block';", slide_upload)
 driver.execute_script("arguments[0].click();", slide_upload)
 slide_upload.send_keys(r"C:\Users\Tulip\OneDrive - TulipTech LTD\Desktop\Test_Slides\9 page - Project Timeline Presentation.pdf")
 
-#  wait for the popup to 
-time.sleep(1)
-wait.until(EC.presence_of_element_located((By.ID, "swal2-html-container")))
-
 # live save button
 live_save_btn = wait.until(EC.presence_of_element_located((By.XPATH, "//button[normalize-space()='Save']")))
 live_save_btn.click()
+
+#  wait for the popup to 
+time.sleep(5)
+wait.until(EC.presence_of_element_located((By.ID, "swal2-html-container")))
+
+# change to preview page
+status_dropdown = wait.until(EC.presence_of_element_located((By.XPATH, "//input[@id='status']")))
+status_dropdown.click()
+
+# choose live
+status_live = wait.until(EC.presence_of_element_located((By.XPATH, "(//div[@id='status_list_0'])[1]")))
+status_live.click()
+
+#preview video upload.
+video_upload = wait.until(EC.presence_of_element_located((By.XPATH, "(//input[@type='file'])[2]")))
+driver.execute_script("arguments[0].style.display = 'block';", video_upload)
+driver.execute_script("arguments[0].click();", video_upload)
+video_upload.send_keys(r"C:\Users\Tulip\OneDrive - TulipTech LTD\Desktop\Test_Videos\Em Beihold - Numb Little Bug (Official Lyric Video).mp4")
+
+# preview save button 
+preview_save_btn = wait.until(EC.presence_of_element_located((By.XPATH, "//button[normalize-space()='Save']")))
+driver.execute_script("arguments[0].click();", preview_save_btn)
+
+#  wait for the popup to 
+time.sleep(5)
+wait.until(EC.presence_of_element_located((By.ID, "swal2-html-container")))
+
 
 
 
