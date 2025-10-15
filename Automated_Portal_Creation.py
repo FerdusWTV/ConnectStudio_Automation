@@ -21,7 +21,20 @@ options.add_argument("--remote-allow-origins=*")
 
 driver = webdriver.Chrome(options=options)
 
-service_obj = Service("C:/Users/Tulip/Downloads/chromedriver-win64/chromedriver.exe")
+# Load env variable
+load_dotenv()
+
+url = os.getenv("URL")
+email = os.getenv("EMAIL")
+password = os.getenv("PASSWORD")
+driver_path = os.getenv("DRIVER")
+
+# url = os.getenv("URL_prod")
+# email = os.getenv("EMAIL_prod")
+# password = os.getenv("PASSWORD_prod")
+
+service_obj = Service(driver_path)
+
 driver = webdriver.Chrome(service = service_obj)
 driver.maximize_window()
 driver.implicitly_wait(5)
@@ -29,17 +42,6 @@ driver.implicitly_wait(5)
 
 Event_Title = "Session Automation Portal 001"
 
-
-# Load env variable
-load_dotenv()
-
-url = os.getenv("URL")
-email = os.getenv("EMAIL")
-password = os.getenv("PASSWORD")
-
-# url = os.getenv("URL_prod")
-# email = os.getenv("EMAIL_prod")
-# password = os.getenv("PASSWORD_prod")
 
 wait = WebDriverWait(driver, 30)
 quick_wait = WebDriverWait(driver, 1)

@@ -19,23 +19,24 @@ options.add_argument("--no-sandbox")
 options.add_argument("--disable-dev-shm-usage")
 options.add_argument("--remote-allow-origins=*")
 
-service_obj = Service("C:/Users/Tulip/Downloads/chromedriver-win64/chromedriver.exe")
-
-driver = webdriver.Chrome(service=service_obj, options=options)
-
-driver.maximize_window()
-driver.implicitly_wait(5)
-
 # Load env variable
 load_dotenv()
 
 url = os.getenv("URL")
 email = os.getenv("EMAIL")
 password = os.getenv("PASSWORD")
+driver_path = os.getenv("DRIVER")
 
 # url = os.getenv("URL_prod")
 # email = os.getenv("EMAIL_prod")
 # password = os.getenv("PASSWORD_prod")
+
+service_obj = Service(driver_path)
+
+driver = webdriver.Chrome(service=service_obj, options=options)
+
+driver.maximize_window()
+driver.implicitly_wait(5)
 
 wait = WebDriverWait(driver, 30)
 quick_wait = WebDriverWait(driver, 1)

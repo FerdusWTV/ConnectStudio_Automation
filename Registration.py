@@ -8,16 +8,17 @@ from selenium.webdriver.support import expected_conditions
 from selenium.webdriver.support.wait import WebDriverWait
 from dotenv import load_dotenv
 
-service_obj = Service("C:/Users/Tulip/Downloads/chromedriver-win64/chromedriver.exe")
-driver = webdriver.Chrome(service = service_obj)
-driver.maximize_window()
-driver.implicitly_wait(5)
-
 load_dotenv()
 
 url = os.getenv("URL")
 email = os.getenv("EMAIL")
 password = os.getenv("PASSWORD")
+driver_path = os.getenv("DRIVER")
+
+service_obj = Service(driver_path)
+driver = webdriver.Chrome(service = service_obj)
+driver.maximize_window()
+driver.implicitly_wait(5)
 
 wait = WebDriverWait(driver, 10)
 quick_wait = WebDriverWait(driver, 3)
