@@ -1,3 +1,4 @@
+from gc import enable
 from http import client
 from pydoc import cli
 import time
@@ -49,6 +50,8 @@ actions = ActionChains(driver)
 # target_portal = "AUTO's live."
 target_portal = "Session Automation Portal 001"
 new_webcast_title = "Automated Webcast Title - 001!!!"
+slide_path = "C:/Users/User/Desktop/Test_Slides/AutomationSlide.pdf"
+video_path = "C:/Users/User/Desktop/Test_Videos/Em Beihold - Numb Little Bug (Official Lyric Video).mp4"
 
 # ======================================================================================================================
 # ------------------------------------------------Thank You!------------------------------------------------------------
@@ -247,8 +250,8 @@ driver.execute_script("arguments[0].click();", content_btn)
 
 slide_upload = wait.until(EC.presence_of_element_located((By.XPATH, "(//input[@type='file'])[1]")))
 driver.execute_script("arguments[0].style.display = 'block';", slide_upload)
-driver.execute_script("arguments[0].click();", slide_upload)
-slide_upload.send_keys(r"C:\Users\User\Desktop\Test_Slides\14 pages - Consulting proposal.pdf")
+# driver.execute_script("arguments[0].click();", slide_upload)
+slide_upload.send_keys(slide_path)
 
 # preview save button 
 time.sleep(1)
@@ -276,10 +279,11 @@ driver.execute_script("arguments[0].click();", content_btn)
 
 slide_upload = wait.until(EC.presence_of_element_located((By.XPATH, "(//input[@type='file'])[1]")))
 driver.execute_script("arguments[0].style.display = 'block';", slide_upload)
-driver.execute_script("arguments[0].click();", slide_upload)
-slide_upload.send_keys(r"C:\Users\User\Desktop\Test_Slides\14 pages - Consulting proposal.pdf")
+# driver.execute_script("arguments[0].click();", slide_upload)
+slide_upload.send_keys(slide_path)
 
 # live save button
+time.sleep(1)
 live_save_btn = wait.until(EC.presence_of_element_located((By.XPATH, "//button[normalize-space()='Save']")))
 live_save_btn.click()
 
@@ -289,19 +293,29 @@ wait.until(EC.presence_of_element_located((By.ID, "swal2-html-container")))
 
 # ----------------------------------------------------------------------------------------------------------------------
 
-# change to preview page
-status_dropdown = wait.until(EC.presence_of_element_located((By.XPATH, "//input[@id='status']")))
+# click on status dropdown menu
+status_dropdown = wait.until(EC.presence_of_element_located((By.XPATH, "//span[@title='Live']")))
 status_dropdown.click()
 
 # choose live
-status_live = wait.until(EC.presence_of_element_located((By.XPATH, "(//div[@id='status_list_0'])[1]")))
+status_live = wait.until(EC.presence_of_element_located((By.XPATH, "//div[contains(text(),'Preview')]")))
 status_live.click()
+
+# # change to preview page
+# time.sleep(1)
+# status_dropdown = wait.until(EC.presence_of_element_located((By.XPATH, "(//div[@class='field-container'])[1]")))
+# driver.execute_script("arguments[0].click();", status_dropdown)
+
+# # choose live
+# status_live = wait.until(EC.presence_of_element_located((By.XPATH, "(//div[@id='status_list_0'])[1]")))
+# driver.execute_script("arguments[0].click();", status_live)
 
 #preview video upload.
 video_upload = wait.until(EC.presence_of_element_located((By.XPATH, "(//input[@type='file'])[2]")))
+driver.execute_script("arguments[0].scrollIntoView(true);",video_upload)
 driver.execute_script("arguments[0].style.display = 'block';", video_upload)
-driver.execute_script("arguments[0].click();", video_upload)
-video_upload.send_keys(r"C:\Users\User\Desktop\Test_Videos\Em Beihold - Numb Little Bug (Official Lyric Video).mp4")
+# driver.execute_script("arguments[0].click();", video_upload)
+video_upload.send_keys(video_path)
 
 # preview save button 
 preview_save_btn = wait.until(EC.presence_of_element_located((By.XPATH, "//button[normalize-space()='Save']")))
@@ -311,9 +325,39 @@ driver.execute_script("arguments[0].click();", preview_save_btn)
 time.sleep(5)
 wait.until(EC.presence_of_element_located((By.ID, "swal2-html-container")))
 
+# ======================================================================================================================
 
+layout_button = wait.until(EC.presence_of_element_located((By.XPATH, "(//button[normalize-space()='Webcast Layout'])[1]")))
+driver.execute_script("arguments[0].click();", layout_button)
 
+# preview text field
+preview_title = wait.until(EC.presence_of_element_located((By.XPATH, "//input[@placeholder='Title']")))
+driver.execute_script("arguments[0].scrollIntoView(true);",preview_title)
+preview_title.send_keys("Automated Preview Text Title!")
 
+preview_text = wait.until(EC.presence_of_element_located((By.XPATH, "//input[@placeholder='Description']")))
+driver.execute_script("arguments[0].scrollIntoView(true);",preview_text)
+preview_text.send_keys("This is Automation test preview text for testing.")
+
+enable_logo = wait.until(EC.presence_of_element_located((By.XPATH, "(//button[@role='switch'])[2]")))
+driver.execute_script("arguments[0].scrollIntoView(true);",enable_logo)
+driver.execute_script("arguments[0].click();", enable_logo)
+
+enable_QnA = wait.until(EC.presence_of_element_located((By.XPATH, "(//button[@role='switch'])[4]")))
+driver.execute_script("arguments[0].scrollIntoView(true);",enable_QnA)
+driver.execute_script("arguments[0].click();", enable_QnA)
+
+enable_slider_list = wait.until(EC.presence_of_element_located((By.XPATH, "(//button[@role='switch'])[6]")))
+driver.execute_script("arguments[0].scrollIntoView(true);",enable_slider_list)
+driver.execute_script("arguments[0].click();", enable_slider_list)
+
+# Webcast Layout Save Button
+layout_save_btn = wait.until(EC.presence_of_element_located((By.XPATH, "//button[normalize-space()='Save']")))
+driver.execute_script("arguments[0].scrollIntoView(true);",layout_save_btn)
+driver.execute_script("arguments[0].click();", layout_save_btn)
+
+# time.sleep(5)
+wait.until(EC.presence_of_element_located((By.ID, "swal2-html-container")))
 
 
 
