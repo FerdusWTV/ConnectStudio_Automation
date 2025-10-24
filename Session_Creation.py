@@ -49,7 +49,7 @@ actions = ActionChains(driver)
 
 # target_portal = "AUTO's live."
 target_portal = "Session Automation Portal 001"
-new_webcast_title = "Automated Webcast Title - 001!!!"
+new_webcast_title = "Automated Webcast Title - 002!!!"
 slide_path = "C:/Users/User/Desktop/Test_Slides/AutomationSlide.pdf"
 video_path = "C:/Users/User/Desktop/Test_Videos/Em Beihold - Numb Little Bug (Official Lyric Video).mp4"
 
@@ -270,6 +270,7 @@ status_dropdown.click()
 
 # choose live
 status_live = wait.until(EC.presence_of_element_located((By.XPATH, "//div[contains(text(),'Live')]")))
+time.sleep(1)
 status_live.click()
 
 # live webcast slide upload
@@ -319,6 +320,7 @@ video_upload.send_keys(video_path)
 
 # preview save button 
 preview_save_btn = wait.until(EC.presence_of_element_located((By.XPATH, "//button[normalize-space()='Save']")))
+# driver.execute_script("arguments[0].scrollIntoView(true);",video_upload)
 driver.execute_script("arguments[0].click();", preview_save_btn)
 
 #  wait for the popup to 
@@ -333,27 +335,35 @@ driver.execute_script("arguments[0].click();", layout_button)
 # preview text field
 preview_title = wait.until(EC.presence_of_element_located((By.XPATH, "//input[@placeholder='Title']")))
 driver.execute_script("arguments[0].scrollIntoView(true);",preview_title)
+time.sleep(1)
+preview_title.clear()
 preview_title.send_keys("Automated Preview Text Title!")
 
 preview_text = wait.until(EC.presence_of_element_located((By.XPATH, "//input[@placeholder='Description']")))
 driver.execute_script("arguments[0].scrollIntoView(true);",preview_text)
+time.sleep(1)
+preview_text.clear()
 preview_text.send_keys("This is Automation test preview text for testing.")
 
 enable_logo = wait.until(EC.presence_of_element_located((By.XPATH, "(//button[@role='switch'])[2]")))
 driver.execute_script("arguments[0].scrollIntoView(true);",enable_logo)
+time.sleep(1)
 driver.execute_script("arguments[0].click();", enable_logo)
 
 enable_QnA = wait.until(EC.presence_of_element_located((By.XPATH, "(//button[@role='switch'])[4]")))
 driver.execute_script("arguments[0].scrollIntoView(true);",enable_QnA)
+time.sleep(1)
 driver.execute_script("arguments[0].click();", enable_QnA)
 
 enable_slider_list = wait.until(EC.presence_of_element_located((By.XPATH, "(//button[@role='switch'])[6]")))
 driver.execute_script("arguments[0].scrollIntoView(true);",enable_slider_list)
+time.sleep(1)
 driver.execute_script("arguments[0].click();", enable_slider_list)
 
 # Webcast Layout Save Button
 layout_save_btn = wait.until(EC.presence_of_element_located((By.XPATH, "//button[normalize-space()='Save']")))
 driver.execute_script("arguments[0].scrollIntoView(true);",layout_save_btn)
+time.sleep(1)
 driver.execute_script("arguments[0].click();", layout_save_btn)
 
 # time.sleep(5)
@@ -362,4 +372,4 @@ wait.until(EC.presence_of_element_located((By.ID, "swal2-html-container")))
 
 
 
-time.sleep(5)
+time.sleep(15)
